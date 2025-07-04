@@ -1,0 +1,83 @@
+.
+├── README.md
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+├── package.json
+├── project_structure.txt
+├── public
+│   └── vite.svg
+├── src
+│   ├── App.jsx
+│   ├── assets
+│   │   └── react.svg
+│   ├── components
+│   │   ├── achievements
+│   │   │   ├── BadgeCard.jsx
+│   │   │   ├── LearningPath.jsx
+│   │   │   └── ProgressBar.jsx
+│   │   ├── charts
+│   │   │   ├── AreaChart.jsx
+│   │   │   ├── BarChart.jsx
+│   │   │   ├── LineChart.jsx
+│   │   │   ├── PieChart.jsx
+│   │   │   └── RadarChart.jsx
+│   │   ├── common
+│   │   │   ├── ErrorBoundary.jsx
+│   │   │   ├── Layout.jsx
+│   │   │   ├── LoadingSpinner.jsx
+│   │   │   ├── Modal.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   └── Sidebar.jsx
+│   │   ├── forum
+│   │   │   ├── ReplyForm.jsx
+│   │   │   ├── SearchFilter.jsx
+│   │   │   ├── ThreadDetail.jsx
+│   │   │   └── ThreadList.jsx
+│   │   └── quiz
+│   │       ├── QuestionCard.jsx
+│   │       ├── QuizCreator.jsx
+│   │       ├── QuizTaker.jsx
+│   │       └── TimerComponent.jsx
+│   ├── contexts
+│   │   ├── AchievementContext.js
+│   │   ├── AuthContext.js
+│   │   ├── ThemeContext.js
+│   │   └── UserPreferencesContext.js
+│   ├── hooks
+│   │   ├── useAnalytics.js
+│   │   ├── useAuth.js
+│   │   ├── useForum.js
+│   │   ├── useLocalStorage.js
+│   │   └── useQuiz.js
+│   ├── index.css
+│   ├── main.jsx
+│   ├── pages
+│   │   └── admin
+│   │       ├── Dashboard.jsx
+│   │       ├── DemoContent.jsx
+│   │       ├── Forum.jsx
+│   │       ├── Instruktur.jsx
+│   │       ├── Pencapaian.jsx
+│   │       └── Quiz.jsx
+│   ├── reducers
+│   │   ├── announcementReducer.js
+│   │   ├── forumReducer.js
+│   │   └── quizReducer.js
+│   ├── services
+│   │   ├── analyticsService.js
+│   │   ├── api.js
+│   │   ├── forumService.js
+│   │   ├── quizService.js
+│   │   └── userService.js
+│   ├── styles
+│   │   └── globlal.css
+│   └── utils
+│       ├── constants.js
+│       ├── dateUtils.js
+│       ├── dummyData.js
+│       └── helpers.js
+├── tailwind.config.js
+└── vite.config.js
+
+18 directories, 63 files
