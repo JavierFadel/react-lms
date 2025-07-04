@@ -19,10 +19,14 @@ import {
  * @param {string} props.xAxisKey - Kunci untuk sumbu X dari objek data.
  * @param {Array<{key: string, color: string}>} props.lines - Array objek yang mendefinisikan setiap garis.
  */
-const CustomLineChart = ({ data, xAxisKey, lines }) => {
+const CustomLineChart = ({ data, xAxisKey, lines, className }) => {
   return (
     // ResponsiveContainer membuat grafik menyesuaikan ukuran kontainer induknya.
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer 
+        width="100%" 
+        height={300}
+        className={className}
+    >
       <LineChart
         data={data}
         margin={{

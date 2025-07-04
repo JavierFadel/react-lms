@@ -87,6 +87,7 @@ export const useAnalytics = () => {
     loading,
     error,
     dashboardData,
-    refreshAnalytics
+    refreshAnalytics,
+    mockAnalyticsData
   };
 };

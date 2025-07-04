@@ -1,5 +1,10 @@
 // src/hooks/useForum.js
-import { useState, useEffect, useCallback } from 'react';
+import { 
+    useState, 
+    useEffect, 
+    useCallback,
+    useMemo
+} from 'react';
 
 export const useForum = () => {
     const [threads, setThreads] = useState([]);
@@ -72,6 +77,18 @@ export const useForum = () => {
 
         loadThreads();
     }, []);
+
+    // Mengambil semua categories
+    const categories = useMemo(() => {
+        // Mengambil semua nama kategori unik dari data threads
+        const uniqueCategoryNames = [...new Set(threads.map(thread => thread.category))];
+        
+        // Membuat array objek kategori yang sesuai untuk dropdown filter
+        return uniqueCategoryNames.map((name, index) => ({
+            id: index + 1, // atau gunakan nama sebagai id jika unik
+            name: name,
+        }));
+    }, [threads]);
 
     // Filter and search threads
     const filteredThreads = useCallback(() => {
@@ -296,6 +313,7 @@ export const useForum = () => {
         // Data
         threads: paginatedThreads(),
         allThreads: threads,
+        categories: categories,
         loading,
         error,
 

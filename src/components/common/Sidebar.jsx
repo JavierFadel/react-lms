@@ -1,5 +1,5 @@
 import { useLayout } from "./Layout";
-import { BarChart3, BookOpen, MessageSquare, Trophy, GraduationCap } from "lucide-react";
+import { BarChart3, BookOpen, MessageSquare, Trophy, GraduationCap, IterationCcw } from "lucide-react";
 import { getTotalStudyTime, getCompletedModules, getStreakData } from "../../utils/dummyData";
 import { formatDuration } from "../../utils/helpers";
 import { NavLink } from "react-router-dom";
@@ -73,17 +73,17 @@ const Sidebar = () => {
                     {/* Navigation Menu */}
                     <nav className="flex-1 px-4 py-6 space-y-2">
                         {menuItems.map((item) => (
-                            <button
-                                key={item.id}
-                                onClick={() => handleMenuClick(item)}
-                                // FIXME: active route not working
+                            <NavLink
                                 className={`
-                                w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors duration-200
-                                ${activeRoute === item.id
-                                                        ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-600'
-                                                        : 'text-gray-700 hover:bg-gray-50'
-                                                    }
-                                `}
+                                        w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors duration-200
+                                        ${activeRoute === item.id
+                                        ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-600'
+                                        : 'text-gray-700 hover:bg-gray-50'
+                                    }
+                                    `}
+                                key={item.label}
+                                to={item.href}
+                                onClick={() => handleMenuClick(item)}
                             >
                                 <span className={`mr-3 ${activeRoute === item.id ? 'text-blue-600' : 'text-gray-500'}`}>
                                     {item.icon}
@@ -92,7 +92,7 @@ const Sidebar = () => {
                                     <div className="font-medium">{item.label}</div>
                                     <div className="text-xs text-gray-500 mt-0.5">{item.description}</div>
                                 </div>
-                            </button>
+                            </NavLink>
                         ))}
                     </nav>
 

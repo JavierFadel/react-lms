@@ -1,12 +1,41 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLayout } from "../../components/common/Layout";
 import { BookOpen, BarChart3, Trophy, GraduationCap } from "lucide-react";
-import { achievements, currentUser } from '../../utils/dummyData';
-import { getCompletedModules, getStreakData, getAverageQuizScore } from '../../utils/dummyData';
+
+import { 
+    achievements, 
+    currentUser, 
+    getCompletedModules,
+    getStreakData,
+    getAverageQuizScore,
+    analyticsData as analyticsDataForCharts,
+    getQuizzesByModule
+} from '../../utils/dummyData';
+import { ANALYTICS_CONFIG } from "../../utils/constants";
+
 import AchievementCard from "./Pencapaian";
+
+import { useAnalytics } from "../../hooks/useAnalytics";
+
+import LoadingSpinner from "../../components/common/LoadingSpinner";
+import CustomLineChart from "../../components/charts/LineChart";
+import CustomBarChart from "../../components/charts/BarChart";
 
 const Dashboard = () => {
     const { activeRoute, setActiveRoute, sidebarOpen, setSidebarOpen } = useLayout();
+
+    const { data: analyticsData, isLoading } = useAnalytics();
+
+    const lineChartData = analyticsDataForCharts.weeklyProgress;
+    const barChartData = analyticsDataForCharts.quizPerformance;
+
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center h-64">
+                <LoadingSpinner />
+            </div>
+        );
+    };
 
     useEffect(() => {
         setActiveRoute('dashboard');
@@ -73,7 +102,7 @@ const Dashboard = () => {
             </div>
 
             {/* Page specific content placeholder */}
-            <div className="bg-white rounded-lg border border-gray-200 p-8">
+            <div className="bg-white rounded-lg border border-gray-200 p-8 mb-8">
                 <div className="grid grid-cols-1 gap-4">
                     {achievements.slice(0, 1).map((achievement) => (
                         <AchievementCard 
@@ -83,7 +112,31 @@ const Dashboard = () => {
                         />
                     ))}
                 </div>
-                
+            </div>
+
+            <div className="bg-white rounded-lg border border-gray-200 p-8">
+                <div className="mb-8">
+                    <h1 className="text-3xl font-bold text-gray-900">Aktivitas Belajar</h1>
+                    <p className="text-gray-600 mt-2">
+                        Track your learning milestones and celebrate your achievements
+                    </p>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    <CustomLineChart 
+                        data={lineChartData}
+                        xAxisKey="week"
+                        lines={[
+                            { key: 'hours', color: ANALYTICS_CONFIG.CHART_COLORS[0] },  // Biru untuk jam belajar
+                            { key: 'modules', color: ANALYTICS_CONFIG.CHART_COLORS[1] } // Hijau untuk modul selesai
+                        ]}
+                        className="mb-8"
+                    />
+                    <CustomBarChart 
+                        data={barChartData}
+                        xAxisKey="name"
+                        bars={[{ key: 'score', color: ANALYTICS_CONFIG.CHART_COLORS[0] }]} // Ungu untuk skor
+                    />
+                </div>
             </div>
         </div>
     )

@@ -23,6 +23,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }) => {
     )
 };
 
+// FIXME: not properly working, yet
 const ErrorBoundary = ({ children }) => {
     return (
         <ReactErrorBoundary

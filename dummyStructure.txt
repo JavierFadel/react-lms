@@ -1,0 +1,245 @@
+modules = [
+  {
+    id: num,
+    title: text,
+    category: text,
+    description: text,
+    duration: num,
+    difficulty: text,
+    status: text,
+    progress: num,
+    completedAt: text/null,
+    studyTime: num,
+    rating: num,
+    topics: [text],
+    instructor: text,
+    thumbnail: text
+  }
+]
+
+quizzes = [
+  {
+    id: num,
+    title: text,
+    moduleId: num,
+    category: text,
+    description: text,
+    questions: [
+      {
+        id: num,
+        type: text,
+        question: text,
+        options?: [text],
+        correctAnswer: num/text/bool,
+        explanation: text
+      }
+    ],
+    timeLimit: num,
+    passingScore: num,
+    attempts: num,
+    maxAttempts: num,
+    bestScore: num/null,
+    lastAttempt: text/null,
+    status: text,
+    difficulty: text
+  }
+]
+
+achievements = [
+  {
+    id: num,
+    title: text,
+    description: text,
+    icon: text,
+    category: text,
+    type: text,
+    points: num,
+    progress: num,
+    unlocked: bool,
+    unlockedAt: text/null,
+    rarity: text,
+    requirements: text,
+    badge: {
+      color: text,
+      gradient: text
+    }
+  }
+]
+
+analyticsData = {
+  weeklyProgress: [ { week: text, modules: num, hours: num } ],
+  studyTimeByCategory: [ { category: text, hours: num } ],
+  moduleStatusDistribution: [ { status: text, count: num, percentage: num } ],
+  skillsRadar: [ { skill: text, level: num } ],
+  cumulativeStudyHours: [ { date: text, hours: num } ],
+  quizPerformance: [ { name: text, score: num } ]
+}
+
+forumCategories = [
+  {
+    id: num,
+    name: text,
+    description: text,
+    threadCount: num,
+    color: text
+  }
+]
+
+forumThreads = [
+  {
+    id: num,
+    title: text,
+    content: text,
+    author: {
+      id: num,
+      name: text,
+      avatar: text,
+      reputation: num,
+      level: text
+    },
+    categoryId: num,
+    tags: [text],
+    createdAt: text,
+    updatedAt: text,
+    views: num,
+    votes: num,
+    replies: num,
+    isPinned: bool,
+    isSolved: bool,
+    isHot: bool
+  }
+]
+
+forumReplies = [
+  {
+    id: num,
+    threadId: num,
+    content: text,
+    author: {
+      id: num,
+      name: text,
+      avatar: text,
+      reputation: num,
+      level: text
+    },
+    createdAt: text,
+    votes: num,
+    isAccepted: bool,
+    mentions: [text]
+  }
+]
+
+currentUser = {
+  id: num,
+  name: text,
+  email: text,
+  avatar: text,
+  role: text,
+  level: text,
+  totalPoints: num,
+  studyStreak: num,
+  totalStudyHours: num,
+  joinedAt: text,
+  preferences: {
+    theme: text,
+    notifications: bool,
+    emailUpdates: bool,
+    language: text
+  },
+  stats: {
+    modulesCompleted: num,
+    quizzesCompleted: num,
+    forumPosts: num,
+    achievements: num
+  }
+}
+
+instructorData = {
+  classes: [
+    {
+      id: num,
+      name: text,
+      students: num,
+      averageScore: num,
+      completionRate: num,
+      activeStudents: num
+    }
+  ],
+  studentPerformance: [
+    {
+      id: num,
+      name: text,
+      email: text,
+      averageScore: num,
+      completedModules: num,
+      totalModules: num,
+      lastActive: text,
+      status: text
+    }
+  ],
+  contentAnalytics: [
+    {
+      moduleId: num,
+      title: text,
+      views: num,
+      completions: num,
+      averageRating: num,
+      averageTime: num,
+      engagementRate: num
+    }
+  ]
+}
+
+DIFFICULTY_LEVELS = {
+  BEGINNER: text,
+  INTERMEDIATE: text,
+  ADVANCED: text
+}
+
+MODULE_STATUS = {
+  NOT_STARTED: text,
+  IN_PROGRESS: text,
+  COMPLETED: text,
+  BOOKMARKED: text
+}
+
+QUIZ_STATUS = {
+  NOT_STARTED: text,
+  IN_PROGRESS: text,
+  COMPLETED: text,
+  FAILED: text
+}
+
+ACHIEVEMENT_TYPES = {
+  BRONZE: text,
+  SILVER: text,
+  GOLD: text,
+  PLATINUM: text
+}
+
+ACHIEVEMENT_CATEGORIES = {
+  MILESTONE: text,
+  PERFORMANCE: text,
+  CONSISTENCY: text,
+  SPECIALIZATION: text,
+  EFFICIENCY: text,
+  COMMUNITY: text,
+  EXPLORATION: text,
+  DEDICATION: text
+}
+
+userActivityData = [ { day: text, visits: num } ]
+
+topicDistributionData = [ { name: text, value: num } ]
+
+studentPerformanceData = [ { subject: text, 'Skor Saya': num, 'Rata-rata Kelas': num, fullMark: num } ]
+
+// Functions
+getModulesByCategory(category) => [module]
+getCompletedModules() => [module]
+getInProgressModules() => [module]
+getQuizzesByModule(moduleId) => [quiz]
+getUnlockedAchievements() => [achievement]
+getTotalStudyTime() => num
+getAverageQuizScore() => num
+getStreakData() => { current: num, longest: num, lastStudyDate: text }

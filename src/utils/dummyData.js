@@ -624,7 +624,16 @@ export const analyticsData = {
         { date: '2024-06-12', hours: 50 },
         { date: '2024-06-13', hours: 53 },
         { date: '2024-06-14', hours: 58 }
-    ]
+    ],
+
+    // Performa kuis, sekarang menggunakan judul kuis yang sebenarnya
+    quizPerformance: [
+      { name: quizzes[0].title, score: 95 }, // Dasar React
+      { name: quizzes[1].title, score: 88 }, // Advanced Hooks
+      { name: quizzes[2].title, score: 82 }, // State Management
+      { name: quizzes[3].title, score: 91 }, // React Testing
+      { name: quizzes[4].title, score: 79 }, // Performance Optimization
+    ],
 };
 
 // Forum data
@@ -972,3 +981,5 @@ export const studentPerformanceData = [
     { subject: 'HTML', 'Skor Saya': 125, 'Rata-rata Kelas': 110, fullMark: 150 },
     { subject: 'Node.js', 'Skor Saya': 85, 'Rata-rata Kelas': 90, fullMark: 150 },
   ];
+
+  
