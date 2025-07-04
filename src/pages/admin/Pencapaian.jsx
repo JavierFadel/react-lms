@@ -228,7 +228,7 @@ const AchievementCard = ({ achievement, isUnlocked }) => {
                     {achievement.icon}
                 </div>
                 <div className="flex flex-col items-end gap-2">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getRarityColor(achievement.rarity)}`}>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium capitalize ${getRarityColor(achievement.rarity)}`}>
                         {achievement.rarity}
                     </span>
                     {isUnlocked && (
@@ -294,3 +294,4 @@ const AchievementCard = ({ achievement, isUnlocked }) => {
 };
 
 export default Pencapaian;
+export { AchievementCard };

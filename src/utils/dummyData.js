@@ -395,7 +395,7 @@ quizzes.push(...additionalQuizzes);
 
 // Achievements data (minimum 10 required)
 export const achievements = [
-    {
+        {
         id: 1,
         title: "First Steps",
         description: "Complete your first module",
@@ -945,3 +945,30 @@ export const getStreakData = () => {
         lastStudyDate: "2024-07-02"
     };
 };
+
+// Contoh data aktivitas pengguna selama seminggu
+export const userActivityData = [
+    { day: 'Senin', visits: 2200 },
+    { day: 'Selasa', visits: 2500 },
+    { day: 'Rabu', visits: 1800 },
+    { day: 'Kamis', visits: 2780 },
+    { day: 'Jumat', visits: 1890 },
+    { day: 'Sabtu', visits: 3200 },
+    { day: 'Minggu', visits: 3500 },
+];
+
+export const topicDistributionData = [
+    { name: 'Frontend', value: 45 },
+    { name: 'Backend', value: 30 },
+    { name: 'DevOps', value: 15 },
+    { name: 'UI/UX', value: 10 },
+];
+
+// Contoh data perbandingan nilai siswa
+export const studentPerformanceData = [
+    { subject: 'React', 'Skor Saya': 110, 'Rata-rata Kelas': 95, fullMark: 150 },
+    { subject: 'Javascript', 'Skor Saya': 90, 'Rata-rata Kelas': 105, fullMark: 150 },
+    { subject: 'CSS', 'Skor Saya': 130, 'Rata-rata Kelas': 100, fullMark: 150 },
+    { subject: 'HTML', 'Skor Saya': 125, 'Rata-rata Kelas': 110, fullMark: 150 },
+    { subject: 'Node.js', 'Skor Saya': 85, 'Rata-rata Kelas': 90, fullMark: 150 },
+  ];

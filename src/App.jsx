@@ -4,7 +4,6 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import Layout from "./components/common/Layout";
-import DemoContent from "./pages/admin/DemoContent";
 import ErrorBoundary from "./components/common/ErrorBoundary";
 
 import { ThemeProvider } from "./contexts/ThemeContext";

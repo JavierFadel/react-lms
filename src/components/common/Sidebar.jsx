@@ -2,6 +2,7 @@ import { useLayout } from "./Layout";
 import { BarChart3, BookOpen, MessageSquare, Trophy, GraduationCap } from "lucide-react";
 import { getTotalStudyTime, getCompletedModules, getStreakData } from "../../utils/dummyData";
 import { formatDuration } from "../../utils/helpers";
+import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
     const { sidebarOpen, setSidebarOpen, activeRoute, setActiveRoute } = useLayout();
@@ -11,35 +12,35 @@ const Sidebar = () => {
             id: 'dashboard',
             label: 'Dashboard',
             icon: <BarChart3 size={20} />,
-            route: '/admin/dashboard',
+            href: '/admin/dashboard',
             description: 'Analytics & Overview'
         },
         {
             id: 'quiz',
             label: 'Quiz & Assessment',
             icon: <BookOpen size={20} />,
-            route: '/admin/quiz',
+            href: '/admin/quiz',
             description: 'Tests & Evaluations'
         },
         {
             id: 'forum',
             label: 'Discussion Forum',
             icon: <MessageSquare size={20} />,
-            route: '/admin/forum',
+            href: '/admin/forum',
             description: 'Community Discussion'
         },
         {
             id: 'achievements',
             label: 'Achievements',
             icon: <Trophy size={20} />,
-            route: '/admin/pencapaian',
+            href: '/admin/pencapaian',
             description: 'Badges & Progress'
         },
         {
             id: 'instructor',
             label: 'Instructor Dashboard',
             icon: <GraduationCap size={20} />,
-            route: '/admin/instruktur',
+            href: '/admin/instruktur',
             description: 'Teaching Tools'
         }
     ];

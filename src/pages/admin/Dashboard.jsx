@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLayout } from "../../components/common/Layout";
 import { BookOpen, BarChart3, Trophy, GraduationCap } from "lucide-react";
-import { modules, quizzes, achievements, currentUser } from '../../utils/dummyData';
+import { achievements, currentUser } from '../../utils/dummyData';
 import { getCompletedModules, getStreakData, getAverageQuizScore } from '../../utils/dummyData';
 import AchievementCard from "./Pencapaian";
 
@@ -74,18 +74,16 @@ const Dashboard = () => {
 
             {/* Page specific content placeholder */}
             <div className="bg-white rounded-lg border border-gray-200 p-8">
-                <div className="text-center">
-                    {/* <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Achievements</h3> */}
-                    <div className="grid grid-cols-1 gap-4">
-                        {achievements.slice(0, 3).map((achievement) => (
-                            <AchievementCard 
-                                key={achievement.id} 
-                                achievement={achievement} 
-                                isUnlocked={achievement.unlocked} 
-                            />
-                        ))}
-                    </div>
+                <div className="grid grid-cols-1 gap-4">
+                    {achievements.slice(0, 1).map((achievement) => (
+                        <AchievementCard 
+                            key={achievement.id} 
+                            achievement={achievement} 
+                            isUnlocked={achievement.unlocked} 
+                        />
+                    ))}
                 </div>
+                
             </div>
         </div>
     )
