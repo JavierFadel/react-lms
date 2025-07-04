@@ -3,6 +3,7 @@ import { useLayout } from "../../components/common/Layout";
 import { BookOpen, BarChart3, Trophy, GraduationCap } from "lucide-react";
 import { modules, quizzes, achievements, currentUser } from '../../utils/dummyData';
 import { getCompletedModules, getStreakData, getAverageQuizScore } from '../../utils/dummyData';
+import AchievementCard from "./Pencapaian";
 
 const Dashboard = () => {
     const { activeRoute, setActiveRoute, sidebarOpen, setSidebarOpen } = useLayout();
@@ -74,15 +75,16 @@ const Dashboard = () => {
             {/* Page specific content placeholder */}
             <div className="bg-white rounded-lg border border-gray-200 p-8">
                 <div className="text-center">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Achievements</h3>
-                    <ul className="space-y-2 text-left text-sm text-gray-700">
-                        {achievements.slice(0, 3).map((ach) => (
-                            <li key={ach.id} className="flex items-center justify-between border-b pb-1">
-                                <span>{ach.title}</span>
-                                <span className="text-xs bg-gray-100 px-2 py-1 rounded">{ach.category}</span>
-                            </li>
+                    {/* <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Achievements</h3> */}
+                    <div className="grid grid-cols-1 gap-4">
+                        {achievements.slice(0, 3).map((achievement) => (
+                            <AchievementCard 
+                                key={achievement.id} 
+                                achievement={achievement} 
+                                isUnlocked={achievement.unlocked} 
+                            />
                         ))}
-                    </ul>
+                    </div>
                 </div>
             </div>
         </div>
