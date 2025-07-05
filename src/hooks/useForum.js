@@ -21,7 +21,6 @@ export const forumKeys = {
 
 export const useForum = () => {
     const [threads, setThreads] = useState([]);
-    const [status, setStatus] = useState('loading');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -127,6 +126,7 @@ export const useForum = () => {
         // Apply category filter
         if (selectedCategory !== 'all') {
             filtered = filtered.filter(thread => thread.category === selectedCategory);
+            console.log(filtered)
         }
 
         // Apply sorting
