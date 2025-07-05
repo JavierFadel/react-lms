@@ -21,6 +21,7 @@ export const forumKeys = {
 
 export const useForum = () => {
     const [threads, setThreads] = useState([]);
+    const [status, setStatus] = useState('loading');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -28,6 +29,13 @@ export const useForum = () => {
     const [sortBy, setSortBy] = useState('newest');
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize] = useState(10);
+
+    const [filters, setFilters] = useState({
+        keyword: '',
+        category: 'all',
+        tag: '',
+        sortBy: 'latest',
+    });
 
     // Mock forum data
     const mockThreads = [

@@ -1,519 +1,245 @@
-// import React, { useState, useMemo } from 'react';
-// import { useForum } from '../../hooks/useForum';
-// import SearchFilter from '../../components/forum/SearchFilter';
-// import ThreadList from '../../components/forum/ThreadList';
-// import LoadingSpinner from '../../components/common/LoadingSpinner';
-// import { Button } from '../../components/common/Button';
-// import { PlusCircle } from 'lucide-react';
-
-// const Forum = () => {
-//   const { categories, threads, isLoading, error } = useForum();
-//   const [searchTerm, setSearchTerm] = useState('');
-//   const [activeFilter, setActiveFilter] = useState('all');
-
-//   console.log(categories);
-
-//   // Memoize hasil filter untuk performa yang lebih baik
-//   const filteredThreads = useMemo(() => {
-//     return threads
-//       .filter((thread) => {
-//         // Filter berdasarkan kategori
-//         if (activeFilter !== 'all') {
-//           return thread.categoryId === parseInt(activeFilter, 10);
-//         }
-//         return true;
-//       })
-//       .filter((thread) => {
-//         // Filter berdasarkan kata kunci pencarian (tidak case-sensitive)
-//         return thread.title.toLowerCase().includes(searchTerm.toLowerCase());
-//       });
-//   }, [threads, searchTerm, activeFilter]);
-
-//   if (error) {
-//     return <div className="text-center p-8 text-red-500">Gagal memuat data forum.</div>;
-//   }
-
-//   return (
-//     <div className="p-4 md:p-6 lg:p-8">
-//       <div className="flex justify-between items-center mb-6">
-//         <h1 className="text-3xl font-bold text-gray-800">Forum Diskusi</h1>
-//         <Button>
-//           <PlusCircle className="w-4 h-4 mr-2" />
-//           Buat Utas Baru
-//         </Button>
-//       </div>
-
-//       <SearchFilter
-//         categories={categories}
-//         currentFilter={activeFilter}
-//         onSearchChange={setSearchTerm}
-//         onFilterChange={setActiveFilter}
-//       />
-
-//       <div className="mt-8">
-//         {isLoading ? (
-//           <div className="flex justify-center items-center h-64">
-//             <LoadingSpinner />
-//           </div>
-//         ) : (
-//           <ThreadList threads={filteredThreads} />
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Forum;
-
-// TODO: version 2
-// import React, { useState, useMemo, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import { useForum } from '../../hooks/useForum';
-// import { useLayout } from '../../components/common/Layout';
-// import SearchFilter from '../../components/forum/SearchFilter';
-// import ThreadList from '../../components/forum/ThreadList';
-// import LoadingSpinner from '../../components/common/LoadingSpinner';
-// import Modal from '../../components/common/Modal';
-// import { Button } from '../../components/common/Button';
-// import { Input } from '../../components/common/Input';
-// import {
-//     PlusCircle,
-//     MessageSquare,
-//     Users,
-//     TrendingUp,
-//     Pin,
-//     CheckCircle,
-//     AlertCircle
-// } from 'lucide-react';
-
-// const Forum = () => {
-//     const navigate = useNavigate();
-//     const { setActiveRoute } = useLayout();
-//     const { categories, threads, isLoading, error, createThread, isSubmitting } = useForum();
-
-//     // Search and Filter State
-//     const [searchTerm, setSearchTerm] = useState('');
-//     const [activeFilter, setActiveFilter] = useState('all');
-//     const [sortBy, setSortBy] = useState('newest');
-
-//     // Modal State
-//     const [showCreateModal, setShowCreateModal] = useState(false);
-//     const [newThreadForm, setNewThreadForm] = useState({
-//         title: '',
-//         content: '',
-//         category: '',
-//         tags: []
-//     });
-
-//     // Set active route
-//     useEffect(() => {
-//         setActiveRoute('forum');
-//     }, [setActiveRoute]);
-
-//     // Memoized filtered and sorted threads
-//     const filteredAndSortedThreads = useMemo(() => {
-//         let result = threads.filter((thread) => {
-//             // Filter by category
-//             if (activeFilter !== 'all') {
-//                 return thread.categoryId === parseInt(activeFilter, 10);
-//             }
-//             return true;
-//         }).filter((thread) => {
-//             // Filter by search term
-//             return thread.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//                 thread.content.toLowerCase().includes(searchTerm.toLowerCase());
-//         });
-
-//         // Sort threads
-//         switch (sortBy) {
-//             case 'newest':
-//                 result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-//                 break;
-//             case 'oldest':
-//                 result.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-//                 break;
-//             case 'mostReplies':
-//                 result.sort((a, b) => b.replies - a.replies);
-//                 break;
-//             case 'leastReplies':
-//                 result.sort((a, b) => a.replies - b.replies);
-//                 break;
-//             default:
-//                 break;
-//         }
-
-//         // Pin threads should always be at the top
-//         const pinned = result.filter(thread => thread.isPinned);
-//         const regular = result.filter(thread => !thread.isPinned);
-
-//         return [...pinned, ...regular];
-//     }, [threads, searchTerm, activeFilter, sortBy]);
-
-//     // Calculate forum stats
-//     const forumStats = useMemo(() => {
-//         const totalThreads = threads.length;
-//         const totalReplies = threads.reduce((sum, thread) => sum + thread.replies, 0);
-//         const activeUsers = new Set(threads.map(thread => thread.author.id)).size;
-//         const recentThreads = threads.filter(thread => {
-//             const threadDate = new Date(thread.createdAt);
-//             const dayAgo = new Date();
-//             dayAgo.setDate(dayAgo.getDate() - 1);
-//             return threadDate > dayAgo;
-//         }).length;
-
-//         return {
-//             totalThreads,
-//             totalReplies,
-//             activeUsers,
-//             recentThreads
-//         };
-//     }, [threads]);
-
-//     // Handle create thread
-//     const handleCreateThread = async (e) => {
-//         e.preventDefault();
-//         if (!newThreadForm.title.trim() || !newThreadForm.content.trim() || !newThreadForm.category) {
-//             return;
-//         }
-
-//         try {
-//             await createThread(newThreadForm);
-//             setShowCreateModal(false);
-//             setNewThreadForm({
-//                 title: '',
-//                 content: '',
-//                 category: '',
-//                 tags: []
-//             });
-//         } catch (error) {
-//             console.error('Error creating thread:', error);
-//         }
-//     };
-
-//     // Handle form input changes
-//     const handleFormChange = (field, value) => {
-//         setNewThreadForm(prev => ({
-//             ...prev,
-//             [field]: value
-//         }));
-//     };
-
-//     if (error) {
-//         return (
-//             <div className="p-6">
-//                 <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-//                     <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-//                     <h2 className="text-xl font-semibold text-red-800 mb-2">Gagal Memuat Forum</h2>
-//                     <p className="text-red-600 mb-4">Terjadi kesalahan saat memuat data forum. Silakan coba lagi.</p>
-//                     <Button onClick={() => window.location.reload()} variant="outline">
-//                         Muat Ulang
-//                     </Button>
-//                 </div>
-//             </div>
-//         );
-//     }
-
-//     return (
-//         <div className="p-4 md:p-6 lg:p-8 max-w-7xl mx-auto">
-//             {/* Header */}
-//             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-//                 <div>
-//                     <h1 className="text-3xl font-bold text-gray-900">Forum Diskusi</h1>
-//                     <p className="text-gray-600 mt-1">Berpartisipasi dalam diskusi pembelajaran</p>
-//                 </div>
-//                 <Button onClick={() => setShowCreateModal(true)} className="flex items-center gap-2">
-//                     <PlusCircle className="w-4 h-4" />
-//                     Buat Utas Baru
-//                 </Button>
-//             </div>
-
-//             {/* Forum Stats */}
-//             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-//                 <div className="bg-white rounded-lg p-4 border border-gray-200">
-//                     <div className="flex items-center justify-between">
-//                         <div>
-//                             <p className="text-sm text-gray-500">Total Utas</p>
-//                             <p className="text-2xl font-bold text-gray-900">{forumStats.totalThreads}</p>
-//                         </div>
-//                         <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-//                             <MessageSquare className="w-5 h-5 text-blue-600" />
-//                         </div>
-//                     </div>
-//                 </div>
-
-//                 <div className="bg-white rounded-lg p-4 border border-gray-200">
-//                     <div className="flex items-center justify-between">
-//                         <div>
-//                             <p className="text-sm text-gray-500">Total Balasan</p>
-//                             <p className="text-2xl font-bold text-gray-900">{forumStats.totalReplies}</p>
-//                         </div>
-//                         <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-//                             <MessageSquare className="w-5 h-5 text-green-600" />
-//                         </div>
-//                     </div>
-//                 </div>
-
-//                 <div className="bg-white rounded-lg p-4 border border-gray-200">
-//                     <div className="flex items-center justify-between">
-//                         <div>
-//                             <p className="text-sm text-gray-500">Pengguna Aktif</p>
-//                             <p className="text-2xl font-bold text-gray-900">{forumStats.activeUsers}</p>
-//                         </div>
-//                         <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-//                             <Users className="w-5 h-5 text-purple-600" />
-//                         </div>
-//                     </div>
-//                 </div>
-
-//                 <div className="bg-white rounded-lg p-4 border border-gray-200">
-//                     <div className="flex items-center justify-between">
-//                         <div>
-//                             <p className="text-sm text-gray-500">Utas Baru (24j)</p>
-//                             <p className="text-2xl font-bold text-gray-900">{forumStats.recentThreads}</p>
-//                         </div>
-//                         <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-//                             <TrendingUp className="w-5 h-5 text-orange-600" />
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-
-//             {/* Search and Filter */}
-//             <div className="mb-6">
-//                 <SearchFilter
-//                     categories={categories}
-//                     currentFilter={activeFilter}
-//                     onSearchChange={setSearchTerm}
-//                     onFilterChange={setActiveFilter}
-//                 />
-//             </div>
-
-//             {/* Sort Options */}
-//             <div className="flex flex-wrap gap-4 mb-6">
-//                 <div className="flex items-center gap-2">
-//                     <label className="text-sm font-medium text-gray-700">Urutkan:</label>
-//                     <select
-//                         value={sortBy}
-//                         onChange={(e) => setSortBy(e.target.value)}
-//                         className="px-3 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-//                     >
-//                         <option value="newest">Terbaru</option>
-//                         <option value="oldest">Terlama</option>
-//                         <option value="mostReplies">Paling Banyak Balasan</option>
-//                         <option value="leastReplies">Paling Sedikit Balasan</option>
-//                     </select>
-//                 </div>
-//             </div>
-
-//             {/* Thread List */}
-//             <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-//                 {isLoading ? (
-//                     <div className="flex justify-center items-center py-12">
-//                         <LoadingSpinner />
-//                     </div>
-//                 ) : filteredAndSortedThreads.length === 0 ? (
-//                     <div className="text-center py-12 px-4">
-//                         <MessageSquare className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-//                         <h3 className="text-lg font-semibold text-gray-700 mb-2">Tidak Ada Utas Ditemukan</h3>
-//                         <p className="text-gray-500 mb-4">
-//                             {searchTerm || activeFilter !== 'all'
-//                                 ? 'Coba gunakan kata kunci atau filter yang berbeda.'
-//                                 : 'Belum ada utas diskusi. Mulai diskusi pertama!'}
-//                         </p>
-//                         <Button onClick={() => setShowCreateModal(true)} variant="outline">
-//                             Buat Utas Pertama
-//                         </Button>
-//                     </div>
-//                 ) : (
-//                     <ThreadList threads={filteredAndSortedThreads} />
-//                 )}
-//             </div>
-
-//             {/* Create Thread Modal */}
-//             <Modal
-//                 isOpen={showCreateModal}
-//                 onClose={() => setShowCreateModal(false)}
-//                 title="Buat Utas Baru"
-//                 maxWidth="2xl"
-//             >
-//                 <form onSubmit={handleCreateThread} className="space-y-4">
-//                     <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-1">
-//                             Judul Utas *
-//                         </label>
-//                         <Input
-//                             type="text"
-//                             placeholder="Masukkan judul utas..."
-//                             value={newThreadForm.title}
-//                             onChange={(e) => handleFormChange('title', e.target.value)}
-//                             required
-//                         />
-//                     </div>
-
-//                     <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-1">
-//                             Kategori *
-//                         </label>
-//                         <select
-//                             value={newThreadForm.category}
-//                             onChange={(e) => handleFormChange('category', e.target.value)}
-//                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-//                             required
-//                         >
-//                             <option value="">Pilih kategori...</option>
-//                             {categories.map((category) => (
-//                                 <option key={category.id} value={category.id}>
-//                                     {category.name}
-//                                 </option>
-//                             ))}
-//                         </select>
-//                     </div>
-
-//                     <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-1">
-//                             Konten *
-//                         </label>
-//                         <textarea
-//                             placeholder="Tulis konten utas Anda..."
-//                             value={newThreadForm.content}
-//                             onChange={(e) => handleFormChange('content', e.target.value)}
-//                             rows={6}
-//                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-//                             required
-//                         />
-//                     </div>
-
-//                     <div className="flex justify-end gap-3 pt-4">
-//                         <Button
-//                             type="button"
-//                             variant="outline"
-//                             onClick={() => setShowCreateModal(false)}
-//                             disabled={isSubmitting}
-//                         >
-//                             Batal
-//                         </Button>
-//                         <Button
-//                             type="submit"
-//                             disabled={isSubmitting || !newThreadForm.title.trim() || !newThreadForm.content.trim() || !newThreadForm.category}
-//                         >
-//                             {isSubmitting ? 'Membuat...' : 'Buat Utas'}
-//                         </Button>
-//                     </div>
-//                 </form>
-//             </Modal>
-//         </div>
-//     );
-// };
-
-// export default Forum;
-
-// import { useForumThreads } from '../../hooks/useForum';
-// import LoadingSpinner from '../../components/common/LoadingSpinner';
-// import { MessageSquare, Eye, Clock, User } from 'lucide-react';
-
-// // A component to display a single item in the thread list
-// const ThreadListItem = ({ thread }) => {
-//   return (
-//     <div className="card hover:shadow-lg hover:border-primary-500/50 transition-all duration-300 p-4 flex flex-col sm:flex-row justify-between items-start">
-//       <div className="flex-grow">
-//         <h3 className="text-lg font-semibold text-primary-700 hover:underline cursor-pointer">
-//           {thread.title}
-//         </h3>
-//         <div className="flex items-center text-sm text-gray-500 mt-2">
-//           <User className="w-4 h-4 mr-1.5" />
-//           <span>{thread.author.name}</span>
-//           <span className="mx-2">•</span>
-//           <Clock className="w-4 h-4 mr-1.5" />
-//           <span>Last reply {thread.lastReply}</span>
-//         </div>
-//       </div>
-//       <div className="flex-shrink-0 flex items-center space-x-4 mt-3 sm:mt-0 sm:ml-6 text-sm text-gray-600">
-//         <div className="flex items-center" title="Replies">
-//           <MessageSquare className="w-4 h-4 mr-1.5" />
-//           <span>{thread.replies}</span>
-//         </div>
-//         <div className="flex items-center" title="Views">
-//           <Eye className="w-4 h-4 mr-1.5" />
-//           <span>{thread.views}</span>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-import { useForumThreads } from '../../hooks/useForum';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
-import { MessageSquare, User, Clock, Link, Plus } from 'lucide-react';
-
+import { useState, useMemo } from 'react';
+import {
+    useThreads,
+    useCategories,
+    useCreateThread,
+    useSearchThreads,
+} from '../../hooks/useForum';
 import StatCard from '../../components/forum/StatCard';
 import ForumToolbar from '../../components/forum/ForumToolbar';
 import ThreadListItem from '../../components/forum/ThreadListItem';
+import ThreadDetail from '../../components/forum/ThreadDetail';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
+import Modal from '../../components/common/Modal';
+import { Button } from '../../components/common/Button';
+import { Plus, Link, MessageSquare, User, Clock } from 'lucide-react';
 
-// The main Forum Page, assembled from our new components
-const ForumPage = () => {
-    // const [view, setView] = React.useState('list'); // 'list' or 'detail'
-    // const [threads, setThreads] = React.useState([]);
-    // const [categories, setCategories] = React.useState([]);
-    // const [selectedThreadId, setSelectedThreadId] = React.useState(null);
-    // const [isLoading, setIsLoading] = React.useState(true);
-    // const [filters, setFilters] = React.useState({ keyword: '', category: 'all', tag: '', sortBy: 'latest' });
+const Forum = () => {
+    // State for UI
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [selectedThread, setSelectedThread] = useState(null);
+    const [search, setSearch] = useState('');
+    const [category, setCategory] = useState('');
+    const [sortBy, setSortBy] = useState('newest');
+    const [tag, setTag] = useState('');
+    const [author, setAuthor] = useState('');
+    const [date, setDate] = useState('');
 
-    const { data: threads, isLoading, error } = useForumThreads();
+    // Thread creation form
+    const [newThread, setNewThread] = useState({
+        title: '',
+        content: '',
+        categoryId: '',
+        tags: '',
+    });
 
-    if (isLoading) {
+    // Data hooks
+    const { data: categories = [], isLoading: loadingCategories } = useCategories();
+    const {
+        data: threadsData,
+        isLoading: loadingThreads,
+        error,
+    } = useThreads({
+        sortBy,
+        categoryId: category || undefined,
+    });
+    const threads = threadsData?.data || [];
+
+    // Stats
+    const stats = useMemo(() => ({
+        totalThreads: threads.length,
+        totalReplies: threads.reduce((acc, t) => acc + (t.replies || 0), 0),
+        activeUsers: new Set(threads.map(t => t.author?.id)).size,
+        newThreads: threads.filter(t => {
+            const d = new Date(t.createdAt);
+            const now = new Date();
+            return (now - d) < 24 * 60 * 60 * 1000;
+        }).length,
+    }), [threads]);
+
+    // Thread creation mutation
+    const createThread = useCreateThread();
+
+    // Filtered & searched threads
+    const filteredThreads = useMemo(() => {
+        let filtered = threads;
+        if (search) {
+            filtered = filtered.filter(
+                t => t.title.toLowerCase().includes(search.toLowerCase()) ||
+                    t.content?.toLowerCase().includes(search.toLowerCase()) ||
+                    (t.tags || []).some(tagVal => tagVal.toLowerCase().includes(search.toLowerCase()))
+            );
+        }
+        if (category) {
+            filtered = filtered.filter(t => String(t.categoryId) === String(category));
+        }
+        if (tag) {
+            filtered = filtered.filter(t => (t.tags || []).includes(tag));
+        }
+        if (author) {
+            filtered = filtered.filter(t => t.author?.name?.toLowerCase().includes(author.toLowerCase()));
+        }
+        if (date) {
+            filtered = filtered.filter(t => t.createdAt?.slice(0, 10) === date);
+        }
+        // Sort
+        switch (sortBy) {
+            case 'popular':
+                filtered = [...filtered].sort((a, b) => (b.votes || 0) - (a.votes || 0));
+                break;
+            case 'solved':
+                filtered = [...filtered].filter(t => t.isSolved);
+                break;
+            case 'newest':
+                filtered = [...filtered].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                break;
+            default:
+                break;
+        }
+        // Pin always on top
+        const pinned = filtered.filter(t => t.isPinned);
+        const regular = filtered.filter(t => !t.isPinned);
+        return [...pinned, ...regular];
+    }, [threads, search, category, tag, author, date, sortBy]);
+
+    // Handlers
+    const handleCreateThread = async (e) => {
+        e.preventDefault();
+        if (!newThread.title.trim() || !newThread.content.trim() || !newThread.categoryId) return;
+        await createThread.mutateAsync({
+            ...newThread,
+            tags: newThread.tags.split(',').map(t => t.trim()).filter(Boolean),
+        });
+        setShowCreateModal(false);
+        setNewThread({ title: '', content: '', categoryId: '', tags: '' });
+    };
+
+    // UI
+    if (loadingThreads || loadingCategories) {
         return <div className="flex justify-center items-center h-96"><LoadingSpinner /></div>;
-}
-
+    }
     if (error) {
         return <div className="text-center text-red-500">Error: {error.message}</div>;
     }
 
-    // Dummy stats - you can calculate these from the data later
-    const stats = {
-        totalThreads: threads?.length || 0,
-        totalReplies: threads?.reduce((acc, t) => acc + t.replies, 0) || 0,
-        activeUsers: 12, // Dummy
-        newThreads: 2 // Dummy
-    };
-
     return (
-        <div>
+        <div className="max-w-6xl mx-auto p-4 md:p-8">
             <div className="flex items-center justify-between mb-6">
                 <div>
                     <h1 className="text-3xl font-bold text-gray-900">Forum Discussions</h1>
-                    <p className="text-gray-600 mt-2">
-                        Track your learning milestones and celebrate your achievements
-                    </p>
+                    <p className="text-gray-600 mt-2">Ask, discuss, and help each other on any topic.</p>
                 </div>
-                <div>
-                    <button
-                        // FIXME: execute modal
-                        className="btn-primary hover:cursor-pointer"
-                        aria-label="Tutup modal"
-                    >
-                        <Plus className='inline' size={24} /> Add New Thread
-                    </button>
+                {/* FIXME: hover not working */}
+                <div className='hover:cursor-pointer'>
+                    <Button onClick={() => setShowCreateModal(true)}>
+                        <Plus className="inline mr-2" /> New Thread
+                    </Button>
                 </div>
             </div>
-            <div className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <StatCard title="Total Threads" value={stats.totalThreads} icon={<Link />} color="bg-green-100" iconColor="text-green-600" />
-                    <StatCard title="Total Replies" value={stats.totalReplies} icon={<MessageSquare />} color="bg-blue-100" iconColor="text-blue-600" />
-                    <StatCard title="Active Users" value={stats.activeUsers} icon={<User />} color="bg-orange-100" iconColor="text-orange-600" />
-                    <StatCard title="Last 24 hours" value={stats.newThreads} icon={<Clock />} color="bg-purple-100" iconColor="text-purple-600" />
-                </div>
-
-                <ForumToolbar />
-
-                <div className="space-y-4">
-                    {threads?.map(thread => (
-                        <ThreadListItem key={thread.id} thread={thread} />
-                    ))}
-                </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <StatCard title="Total Threads" value={stats.totalThreads} icon={<Link />} color="bg-green-100" iconColor="text-green-600" />
+                <StatCard title="Total Replies" value={stats.totalReplies} icon={<MessageSquare />} color="bg-blue-100" iconColor="text-blue-600" />
+                <StatCard title="Active Users" value={stats.activeUsers} icon={<User />} color="bg-orange-100" iconColor="text-orange-600" />
+                <StatCard title="Last 24 hours" value={stats.newThreads} icon={<Clock />} color="bg-purple-100" iconColor="text-purple-600" />
             </div>
+            {/* Toolbar for search/filter/sort */}
+            <div className="mb-6">
+                <ForumToolbar
+                    search={search}
+                    setSearch={setSearch}
+                    category={category}
+                    setCategory={setCategory}
+                    categories={categories}
+                    sortBy={sortBy}
+                    setSortBy={setSortBy}
+                    tag={tag}
+                    setTag={setTag}
+                    author={author}
+                    setAuthor={setAuthor}
+                    date={date}
+                    setDate={setDate}
+                />
+            </div>
+            {/* Main content: thread list or thread detail */}
+            <div>
+                {selectedThread ? (
+                    <ThreadDetail
+                        threadId={selectedThread}
+                        onBack={() => setSelectedThread(null)}
+                    />
+                ) : (
+                    <div className="space-y-4">
+                        {filteredThreads.length === 0 ? (
+                            <div className="text-center text-gray-500 py-12">No threads found.</div>
+                        ) : (
+                            filteredThreads.map(thread => (
+                                <div key={thread.id} onClick={() => setSelectedThread(thread.id)} className="cursor-pointer">
+                                    <ThreadListItem thread={thread} />
+                                </div>
+                            ))
+                        )}
+                    </div>
+                )}
+            </div>
+            {/* Modal for creating a new thread */}
+            <Modal isOpen={showCreateModal} onClose={() => setShowCreateModal(false)} title="Create New Thread" maxWidth="2xl">
+                <form onSubmit={handleCreateThread} className="space-y-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Title *</label>
+                        <input
+                            type="text"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={newThread.title}
+                            onChange={e => setNewThread(nt => ({ ...nt, title: e.target.value }))}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
+                        <select
+                            value={newThread.categoryId}
+                            onChange={e => setNewThread(nt => ({ ...nt, categoryId: e.target.value }))}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                        >
+                            <option value="">Select category...</option>
+                            {categories.map(cat => (
+                                <option key={cat.id} value={cat.id}>{cat.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Tags (comma separated)</label>
+                        <input
+                            type="text"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={newThread.tags}
+                            onChange={e => setNewThread(nt => ({ ...nt, tags: e.target.value }))}
+                            placeholder="e.g. react, hooks, state"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Content *</label>
+                        <textarea
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={newThread.content}
+                            onChange={e => setNewThread(nt => ({ ...nt, content: e.target.value }))}
+                            rows={6}
+                            required
+                        />
+                    </div>
+                    <div className="flex justify-end gap-3 pt-4">
+                        <Button type="button" variant="outline" onClick={() => setShowCreateModal(false)}>
+                            Cancel
+                        </Button>
+                        <Button type="submit" disabled={!newThread.title.trim() || !newThread.content.trim() || !newThread.categoryId}>
+                            Create Thread
+                        </Button>
+                    </div>
+                </form>
+            </Modal>
         </div>
-
     );
 };
 
-export default ForumPage;
+export default Forum;

@@ -70,6 +70,7 @@
 
 import { useState } from "react";
 import { currentUser } from "../../utils/dummyData";
+import { Send } from "lucide-react";
 
 const ReplyForm = ({ onSubmit, parentId = null }) => {
     const [content, setContent] = useState('');
@@ -81,15 +82,17 @@ const ReplyForm = ({ onSubmit, parentId = null }) => {
         }
     };
     return (
-        <form onSubmit={handleSubmit} className="mt-4 flex items-start space-x-3">
+        <form onSubmit={handleSubmit} className="card mt-4 flex items-start space-x-3">
             <img src={currentUser.avatar} alt="Your avatar" className="h-10 w-10 rounded-full" />
             <div className="flex-1">
                 <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="Tulis balasan..."
-                    className="w-full p-3 border-2 border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="3"></textarea>
-                <button type="submit" className="mt-2 flex items-center space-x-2 bg-indigo-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700">
+                    className="w-full p-3 border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="3"></textarea>
+                <button type="submit" className="mt-2 flex items-center space-x-2 bg-indigo-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-indigo-700">
                     <Send className="h-5 w-5" /><span>Kirim Balasan</span>
                 </button>
             </div>
         </form>
     );
 };
+
+export default ReplyForm;

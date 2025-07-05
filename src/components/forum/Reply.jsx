@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { formatDate } from "../../utils/helpers";
 
 const Reply = ({ reply, onReply }) => {
     const [showReplyForm, setShowReplyForm] = useState(false);
@@ -9,15 +10,15 @@ const Reply = ({ reply, onReply }) => {
         );
     };
     return (
-        <div className="flex space-x-4">
+        <div className="card flex space-x-4">
             <img src={reply.author.avatar} alt={reply.author.name} className="h-10 w-10 rounded-full flex-shrink-0 mt-1" />
             <div className="flex-1">
-                <div className="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg">
+                <div className="bg-white px-3 pb-3 rounded-lg">
                     <div className="flex justify-between items-center">
-                        <span className="font-semibold text-gray-800 dark:text-gray-200">{reply.author.name}</span>
-                        <span className="text-xs text-gray-400 dark:text-gray-500">{formatDate(reply.createdAt)}</span>
+                        <span className="font-semibold text-gray-800">{reply.author.name}</span>
+                        <span className="text-xs text-gray-400">{formatDate(reply.createdAt)}</span>
                     </div>
-                    <p className="mt-1 text-gray-600 dark:text-gray-300">{renderContent(reply.content)}</p>
+                    <p className="mt-1 text-gray-600">{renderContent(reply.content)}</p>
                 </div>
                 <div className="mt-1 flex items-center space-x-4 text-xs">
                     <button className="font-semibold text-gray-500 hover:text-indigo-600">Vote</button>
@@ -33,3 +34,5 @@ const Reply = ({ reply, onReply }) => {
         </div>
     );
 };
+
+export default Reply;
