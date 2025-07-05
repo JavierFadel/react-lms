@@ -393,6 +393,247 @@ const additionalQuizzes = Array.from({ length: 25 }, (_, index) => ({
 
 quizzes.push(...additionalQuizzes);
 
+const quizData = [
+    {
+        id: 'react-basics',
+        title: 'React Basics',
+        description: 'Test your foundational knowledge of React, including components, props, and state.',
+        difficulty: 'Easy',
+        duration: 10, // minutes
+        questions: [
+            {
+                text: "What is JSX?",
+                options: ["A JavaScript library", "A syntax extension for JavaScript", "A CSS preprocessor", "A database query language"],
+                correctAnswer: "A syntax extension for JavaScript",
+            },
+            {
+                text: "Which hook is used to manage state in a functional component?",
+                options: ["useEffect", "useState", "useContext", "useReducer"],
+                correctAnswer: "useState",
+            },
+            {
+                text: "How do you pass data from a parent component to a child component?",
+                options: ["Using state", "Using context", "Using props", "Using refs"],
+                correctAnswer: "Using props",
+            },
+        ],
+    },
+    {
+        id: 'advanced-css',
+        title: 'Advanced CSS',
+        description: 'Challenge your understanding of modern CSS concepts like Grid, Flexbox, and custom properties.',
+        difficulty: 'Medium',
+        duration: 15, // minutes
+        questions: [
+            {
+                text: "Which CSS property is used to create a flexible layout container?",
+                options: ["display: grid", "display: block", "display: flex", "position: absolute"],
+                correctAnswer: "display: flex",
+            },
+            {
+                text: "What is the correct syntax for a CSS custom property?",
+                options: ["$my-color: #000;", "--my-color: #000;", "@my-color: #000;", "var(my-color): #000;"],
+                correctAnswer: "--my-color: #000;",
+            },
+        ],
+    },
+    {
+        id: 'javascript-fundamentals',
+        title: 'JavaScript Fundamentals',
+        description: 'Master the basics of JavaScript including variables, functions, and control structures.',
+        difficulty: 'Easy',
+        duration: 12, // minutes
+        questions: [
+            {
+                text: "What is the difference between '==' and '===' in JavaScript?",
+                options: ["No difference", "== checks value and type, === checks only value", "== checks only value, === checks value and type", "== is deprecated"],
+                correctAnswer: "== checks only value, === checks value and type",
+            },
+            {
+                text: "Which method is used to add an element to the end of an array?",
+                options: ["push()", "pop()", "shift()", "unshift()"],
+                correctAnswer: "push()",
+            },
+            {
+                text: "What is a closure in JavaScript?",
+                options: ["A function that has access to variables in its outer scope", "A way to close browser tabs", "A method to end loops", "A type of variable"],
+                correctAnswer: "A function that has access to variables in its outer scope",
+            },
+        ],
+    },
+    {
+        id: 'nodejs-backend',
+        title: 'Node.js Backend Development',
+        description: 'Learn server-side JavaScript with Node.js, Express, and database integration.',
+        difficulty: 'Medium',
+        duration: 20, // minutes
+        questions: [
+            {
+                text: "What is the purpose of package.json in a Node.js project?",
+                options: ["To store passwords", "To define project metadata and dependencies", "To create HTML files", "To run tests"],
+                correctAnswer: "To define project metadata and dependencies",
+            },
+            {
+                text: "Which method is used to handle GET requests in Express?",
+                options: ["app.post()", "app.get()", "app.put()", "app.delete()"],
+                correctAnswer: "app.get()",
+            },
+            {
+                text: "What is middleware in Express.js?",
+                options: ["A type of database", "Functions that have access to request and response objects", "A testing framework", "A template engine"],
+                correctAnswer: "Functions that have access to request and response objects",
+            },
+        ],
+    },
+    {
+        id: 'database-design',
+        title: 'Database Design Principles',
+        description: 'Understand relational database concepts, normalization, and SQL fundamentals.',
+        difficulty: 'Medium',
+        duration: 18, // minutes
+        questions: [
+            {
+                text: "What is the primary key in a database table?",
+                options: ["Any column", "A column that uniquely identifies each row", "The first column", "A foreign key"],
+                correctAnswer: "A column that uniquely identifies each row",
+            },
+            {
+                text: "What is normalization in database design?",
+                options: ["Making tables larger", "Organizing data to reduce redundancy", "Adding more columns", "Deleting data"],
+                correctAnswer: "Organizing data to reduce redundancy",
+            },
+            {
+                text: "Which SQL command is used to retrieve data from a database?",
+                options: ["INSERT", "UPDATE", "SELECT", "DELETE"],
+                correctAnswer: "SELECT",
+            },
+        ],
+    },
+    {
+        id: 'api-design',
+        title: 'RESTful API Design',
+        description: 'Learn best practices for designing and implementing RESTful APIs.',
+        difficulty: 'Hard',
+        duration: 25, // minutes
+        questions: [
+            {
+                text: "What does REST stand for?",
+                options: ["Remote State Transfer", "Representational State Transfer", "Resource State Transfer", "Request State Transfer"],
+                correctAnswer: "Representational State Transfer",
+            },
+            {
+                text: "Which HTTP status code indicates a successful creation?",
+                options: ["200 OK", "201 Created", "204 No Content", "400 Bad Request"],
+                correctAnswer: "201 Created",
+            },
+            {
+                text: "What is the purpose of HTTP headers in API requests?",
+                options: ["To store data", "To provide metadata about the request/response", "To create cookies", "To validate passwords"],
+                correctAnswer: "To provide metadata about the request/response",
+            },
+        ],
+    },
+    {
+        id: 'testing-strategies',
+        title: 'Software Testing Strategies',
+        description: 'Master unit testing, integration testing, and test-driven development.',
+        difficulty: 'Medium',
+        duration: 22, // minutes
+        questions: [
+            {
+                text: "What is unit testing?",
+                options: ["Testing the entire application", "Testing individual components in isolation", "Testing user interfaces", "Testing databases"],
+                correctAnswer: "Testing individual components in isolation",
+            },
+            {
+                text: "What is the purpose of mocking in testing?",
+                options: ["To make tests faster", "To replace real dependencies with fake ones", "To create real data", "To debug code"],
+                correctAnswer: "To replace real dependencies with fake ones",
+            },
+            {
+                text: "What does TDD stand for?",
+                options: ["Test-Driven Development", "Type-Driven Development", "Test-Defined Development", "Type-Defined Development"],
+                correctAnswer: "Test-Driven Development",
+            },
+        ],
+    },
+    {
+        id: 'security-basics',
+        title: 'Web Security Fundamentals',
+        description: 'Learn about common web vulnerabilities and security best practices.',
+        difficulty: 'Hard',
+        duration: 30, // minutes
+        questions: [
+            {
+                text: "What is XSS (Cross-Site Scripting)?",
+                options: ["A type of database attack", "Injecting malicious scripts into web pages", "A network protocol", "A type of encryption"],
+                correctAnswer: "Injecting malicious scripts into web pages",
+            },
+            {
+                text: "What is the purpose of HTTPS?",
+                options: ["To make websites faster", "To encrypt data in transit", "To store passwords", "To create cookies"],
+                correctAnswer: "To encrypt data in transit",
+            },
+            {
+                text: "What is SQL injection?",
+                options: ["A type of virus", "Injecting malicious SQL code into queries", "A database backup method", "A type of encryption"],
+                correctAnswer: "Injecting malicious SQL code into queries",
+            },
+        ],
+    },
+    {
+        id: 'git-workflow',
+        title: 'Git and Version Control',
+        description: 'Master Git commands, branching strategies, and collaborative development workflows.',
+        difficulty: 'Easy',
+        duration: 15, // minutes
+        questions: [
+            {
+                text: "What is a Git repository?",
+                options: ["A folder on your computer", "A storage location for project files and version history", "A type of database", "A backup service"],
+                correctAnswer: "A storage location for project files and version history",
+            },
+            {
+                text: "What does 'git commit' do?",
+                options: ["Downloads code from remote", "Saves changes to the repository", "Creates a new branch", "Merges branches"],
+                correctAnswer: "Saves changes to the repository",
+            },
+            {
+                text: "What is a pull request?",
+                options: ["A way to download files", "A request to merge changes into another branch", "A type of commit", "A backup method"],
+                correctAnswer: "A request to merge changes into another branch",
+            },
+        ],
+    },
+    {
+        id: 'deployment-devops',
+        title: 'Deployment and DevOps',
+        description: 'Learn about CI/CD pipelines, containerization, and cloud deployment strategies.',
+        difficulty: 'Hard',
+        duration: 28, // minutes
+        questions: [
+            {
+                text: "What is Docker?",
+                options: ["A programming language", "A containerization platform", "A database", "A web server"],
+                correctAnswer: "A containerization platform",
+            },
+            {
+                text: "What does CI/CD stand for?",
+                options: ["Code Integration/Code Deployment", "Continuous Integration/Continuous Deployment", "Container Integration/Container Deployment", "Cloud Integration/Cloud Deployment"],
+                correctAnswer: "Continuous Integration/Continuous Deployment",
+            },
+            {
+                text: "What is the purpose of environment variables?",
+                options: ["To store passwords in code", "To configure applications for different environments", "To create backups", "To run tests"],
+                correctAnswer: "To configure applications for different environments",
+            },
+        ],
+    },
+];
+
+// Export quiz data
+export { quizData };
+
 // Achievements data (minimum 10 required)
 export const achievements = [
         {
