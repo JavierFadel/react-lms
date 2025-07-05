@@ -443,111 +443,11 @@
 
 import { useForumThreads } from '../../hooks/useForum';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
-import {
-    MessageSquare, Eye, Pin, Search, ChevronDown,
-    User, Tag, Clock, ThumbsUp, FileText, BookOpen, Link,
-    CheckCircle, MoreVertical, ArrowUp, ArrowDown, Star
-} from 'lucide-react';
+import { MessageSquare, User, Clock, Link, Plus } from 'lucide-react';
 
-// New Component: A card for the top-level stats
-const StatCard = ({ title, value, icon: Icon, color, iconColor }) => (
-    <div className="bg-white rounded-lg p-6 border border-gray-200">
-        <div className="flex items-center justify-between">
-            <div>
-                <p className="text-gray-500 text-sm">{title}</p>
-                <p className="text-2xl font-bold text-gray-900">{value}</p>
-            </div>
-            <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${color}`}>
-                <div className={`${iconColor}`}>
-                    {Icon}
-                </div>
-            </div>
-        </div>
-    </div>
-);
-
-// Komponen Baru: Voting (UI Saja)
-const Voting = ({ votes }) => (
-    <div className="flex flex-col items-center justify-center px-4">
-        <button className="text-gray-400 hover:text-green-500"><ArrowUp className="w-6 h-6" /></button>
-        <span className="text-lg font-bold text-gray-700 my-1">{votes}</span>
-        <button className="text-gray-400 hover:text-red-500"><ArrowDown className="w-6 h-6" /></button>
-    </div>
-);
-
-// Komponen Baru: Badge Reputasi User (UI Saja)
-const ReputationBadge = ({ badge }) => (
-    <span className={`text-xs font-bold uppercase px-2 py-0.5 rounded-full ${badge === 'platinum' ? 'bg-amber-100 text-amber-800' : 'bg-gray-100 text-gray-800'
-        }`}>{badge}</span>
-);
-
-// New Component: The interactive toolbar with search and filters
-const ForumToolbar = () => (
-    <div className="bg-white border rounded-md border-gray-200 p-4 flex flex-col md:flex-row gap-4 items-center">
-        <div className="relative flex-grow w-full">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-            <input
-                type="text"
-                placeholder="Search for threads..."
-                className="input-field pl-10"
-            />
-        </div>
-        <div className="flex gap-4 w-full md:w-auto">
-            <div className="relative flex-shrink-0 w-1/2 md:w-48">
-                <select className="input-field appearance-none">
-                    <option>All Categories</option>
-                    <option>React</option>
-                    <option>Security</option>
-                    <option>Showcase</option>
-                </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-            </div>
-            <div className="relative flex-shrink-0 w-1/2 md:w-48">
-                <select className="input-field appearance-none">
-                    <option>Sort by: Last Reply</option>
-                    <option>Sort by: Newest</option>
-                    <option>Sort by: Most Views</option>
-                </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-            </div>
-        </div>
-    </div>
-);
-
-// Revamped Component: A detailed list item for each thread
-const ThreadListItem = ({ thread }) => (
-    <div className="card py-4 px-6 flex gap-4 items-center hover:shadow-lg hover:border-primary-500/50 transition-all duration-300">
-        <Voting votes={thread.votes} />
-        <div className="flex-grow">
-            <div className="flex items-center gap-2">
-                {thread.isPinned && <Pin className="w-4 h-4 text-primary-600" title="Pinned Thread" />}
-                <h3 className="text-lg font-semibold text-gray-800 hover:text-primary-700 cursor-pointer">
-                    {thread.title}
-                </h3>
-            </div>
-            <p className="text-sm text-gray-600 mt-1">{thread.excerpt}</p>
-            <div className="flex flex-wrap gap-2 mt-3">
-                {thread.tags.map(tag => (
-                    <span key={tag} className="bg-primary-50 text-primary-700 text-xs font-medium px-2.5 py-1 rounded-full flex items-center">
-                        <Tag className="w-3 h-3 mr-1" /> {tag}
-                    </span>
-                ))}
-            </div>
-            <div className="flex flex-wrap items-center text-sm text-gray-500 mt-4 gap-x-4 gap-y-2">
-                <div className="flex items-center">
-                    <img src={thread.author.avatar} alt={thread.author.name} className="w-6 h-6 rounded-full hidden sm:block mr-4" />
-                    {thread.author.name}
-                </div>
-                <div className="flex items-center"><ReputationBadge badge={thread.author.badge} /></div>
-                <div className="flex items-center"><Star className="w-4 h-4 mr-1.5" />{thread.author.reputation} points</div>
-                <div className="flex items-center"><MessageSquare className="w-4 h-4 mr-1.5" />{thread.replies} Replies</div>
-                <div className="flex items-center"><Eye className="w-4 h-4 mr-1.5" />{thread.views} Views</div>
-                <div className="flex items-center"><Clock className="w-4 h-4 mr-1.5" />{new Date(thread.createdAt).toLocaleDateString()}</div>
-            </div>
-        </div>
-        <MoreVertical className='items-start hover:cursor-pointer hover:bg-gray-100 hover:rounded-full' />
-    </div>
-);
+import StatCard from '../../components/forum/StatCard';
+import ForumToolbar from '../../components/forum/ForumToolbar';
+import ThreadListItem from '../../components/forum/ThreadListItem';
 
 // The main Forum Page, assembled from our new components
 const ForumPage = () => {
@@ -571,11 +471,22 @@ const ForumPage = () => {
 
     return (
         <div>
-            <div className="mb-6">
-                <h1 className="text-3xl font-bold text-gray-900">Forum Discussions</h1>
-                <p className="text-gray-600 mt-2">
-                    Track your learning milestones and celebrate your achievements
-                </p>
+            <div className="flex items-center justify-between mb-6">
+                <div>
+                    <h1 className="text-3xl font-bold text-gray-900">Forum Discussions</h1>
+                    <p className="text-gray-600 mt-2">
+                        Track your learning milestones and celebrate your achievements
+                    </p>
+                </div>
+                <div>
+                    <button
+                        // FIXME: execute modal
+                        className="btn-primary hover:cursor-pointer"
+                        aria-label="Tutup modal"
+                    >
+                        <Plus className='inline' size={24} /> Add New Thread
+                    </button>
+                </div>
             </div>
             <div className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -596,26 +507,6 @@ const ForumPage = () => {
         </div>
 
     );
-
-    // const { data: threads, isLoading, error } = useForumThreads();
-    //     if (isLoading) return <div className="flex justify-center items-center h-96"><LoadingSpinner /></div>;
-    //     if (error) return <div className="text-center text-red-500">Error: {error.message}</div>;
-
-    //     return (
-    //         <div className="space-y-6">
-    //         <div className="flex justify-between items-center">
-    //             <h1 className="text-3xl font-bold">Forum Diskusi</h1>
-    //             <button className="btn-primary flex items-center">
-    //             <MessageSquare className="w-4 h-4 mr-2"/>
-    //             Mulai Thread Baru
-    //             </button>
-    //         </div>
-    //         <ForumToolbar />
-    //         <div className="space-y-4">
-    //             {threads?.map(thread => <ThreadListItem key={thread.id} thread={thread} />)}
-    //         </div>
-    //         </div>
-    //     );
 };
 
 export default ForumPage;
