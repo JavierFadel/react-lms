@@ -1,4 +1,5 @@
 import { api, handleApiError } from './api.js';
+import { forumThreads } from '../utils/dummyData.js';
 
 // Forum Service - handles all forum-related API operations
 export const forumService = {
@@ -189,3 +190,12 @@ export const forumService = {
         }
     }
 };
+
+// Simulates fetching all forum threads from an API
+export const getForumThreads = async () => {
+    // Simulate a network delay to test loading states
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    console.log("Fetching forum threads from dummy data...");
+    return forumThreads;
+}

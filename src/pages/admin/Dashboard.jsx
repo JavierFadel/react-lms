@@ -8,8 +8,7 @@ import {
     getCompletedModules,
     getStreakData,
     getAverageQuizScore,
-    analyticsData as analyticsDataForCharts,
-    getQuizzesByModule
+    analyticsData as analyticsDataForCharts
 } from '../../utils/dummyData';
 import { ANALYTICS_CONFIG } from "../../utils/constants";
 

@@ -1,4 +1,5 @@
 import { api, handleApiError } from './api.js';
+import { instructors } from '../utils/dummyData.js';
 
 // User Service - handles all user-related API operations
 export const userService = {
@@ -196,4 +197,15 @@ export const userService = {
             throw handleApiError(error);
         }
     }
+};
+
+export const getInstructors = async () => {
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // In a real app, this would be an API call:
+    // const response = await fetch('/api/instructors');
+    // const data = await response.json();
+    // return data;
+    console.log("Fetching instructors data from dummy data..");
+    return instructors;
 };

@@ -5,6 +5,8 @@ import {
     useCallback,
     useMemo
 } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { getForumThreads } from '../services/forumService';
 
 export const useForum = () => {
     const [threads, setThreads] = useState([]);
@@ -343,4 +345,13 @@ export const useForum = () => {
         getForumStats,
         filteredThreads
     };
+};
+
+// FIXME: bind this to the rest of the hooks above
+// Hook to fetch all forum threads
+export const useForumThreads = () => {
+    return useQuery({
+        queryKey: ['forumThreads'],
+        queryFn: getForumThreads,
+    });
 };

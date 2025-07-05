@@ -672,13 +672,19 @@ export const forumThreads = [
     {
         id: 1,
         title: "Best practices for React state management",
+        excerpt: "With the evolution of server components and new hooks, the landscape is changing. Let's discuss the pros and cons of Zustand, Jotai, Redux, and native Context.",
         content: "I'm working on a large React application and struggling with state management. What are the current best practices?",
         author: {
             id: 1,
             name: "John Learner",
-            avatar: "https://via.placeholder.com/40x40?text=JL",
+            avatar: "https://i.pravatar.cc/150?u=1",
             reputation: 245,
-            level: "Intermediate"
+            level: "Intermediate",
+            badge: "silver"
+        },
+        lastReply: {
+            author: "Marcus Chen",
+            timestamp: "2025-07-04T18:45:00Z"
         },
         categoryId: 1,
         tags: ["react", "state-management", "best-practices"],
@@ -694,13 +700,19 @@ export const forumThreads = [
     {
         id: 2,
         title: "Database indexing strategies for large datasets",
+        excerpt: "Looking for advice on indexing a table with over 10 million records. What works best for performance?",
         content: "Working with a table that has over 10 million records. What indexing strategies should I consider?",
         author: {
             id: 2,
             name: "Maria Database",
-            avatar: "https://via.placeholder.com/40x40?text=MD",
+            avatar: "https://i.pravatar.cc/150?u=1",
             reputation: 389,
-            level: "Expert"
+            level: "Expert",
+            badge: "gold"
+        },
+        lastReply: {
+            author: "Fatima Zahra",
+            timestamp: "2025-07-03T16:10:00Z"
         },
         categoryId: 2,
         tags: ["database", "indexing", "performance", "optimization"],
@@ -716,13 +728,19 @@ export const forumThreads = [
     {
         id: 3,
         title: "Career advice: Frontend vs Full-stack developer",
+        excerpt: "Should I specialize in frontend or go full-stack? Looking for experiences and recommendations.",
         content: "I'm a junior developer trying to decide between specializing in frontend or becoming a full-stack developer. What are your experiences?",
         author: {
             id: 3,
             name: "Alex Newbie",
-            avatar: "https://via.placeholder.com/40x40?text=AN",
+            avatar: "https://i.pravatar.cc/150?u=1",
             reputation: 67,
-            level: "Beginner"
+            level: "Beginner",
+            badge: "platinum"
+        },
+        lastReply: {
+            author: "Ben Carter",
+            timestamp: "2025-07-02T20:30:00Z"
         },
         categoryId: 4,
         tags: ["career", "frontend", "full-stack", "advice"],
@@ -798,8 +816,101 @@ export const currentUser = {
     }
 };
 
+export const instructors = [
+    {
+        id: 1,
+        name: 'Dr. Evelyn Reed',
+        title: 'Lead Data Scientist',
+        avatar: 'https://i.pravatar.cc/150?u=1',
+        rating: 4.9,
+        courses: 12,
+        bio: 'Specializes in machine learning and statistical modeling with over a decade of industry experience.'
+    },
+    {
+        id: 2,
+        name: 'Marcus Chen',
+        title: 'Senior Frontend Developer',
+        avatar: 'https://i.pravatar.cc/150?u=2',
+        rating: 4.8,
+        courses: 8,
+        bio: 'Expert in React, Next.js, and modern web architecture. Passionate about creating seamless user experiences.'
+    },
+    {
+        id: 3,
+        name: 'Aisha Khan',
+        title: 'Cybersecurity Analyst',
+        avatar: 'https://i.pravatar.cc/150?u=3',
+        rating: 4.9,
+        courses: 5,
+        bio: 'Focused on ethical hacking and network security. Holds multiple certifications in threat analysis.'
+    },
+    {
+        id: 4,
+        name: 'Ben Carter',
+        title: 'UX/UI Design Lead',
+        avatar: 'https://i.pravatar.cc/150?u=4',
+        rating: 4.7,
+        courses: 7,
+        bio: 'Transforms complex problems into beautiful and intuitive designs. Master of Figma and user-centered design.'
+    },
+    {
+        id: 5,
+        name: 'Priya Patel',
+        title: 'Cloud Solutions Architect',
+        avatar: 'https://i.pravatar.cc/150?u=5',
+        rating: 4.8,
+        courses: 10,
+        bio: 'Designs scalable cloud infrastructure and specializes in AWS and Azure deployments.'
+    },
+    {
+        id: 6,
+        name: 'Liam O\'Connor',
+        title: 'Full Stack Developer',
+        avatar: 'https://i.pravatar.cc/150?u=6',
+        rating: 4.6,
+        courses: 9,
+        bio: 'Experienced in both frontend and backend technologies, with a focus on Node.js and React.'
+    },
+    {
+        id: 7,
+        name: 'Sofia Rossi',
+        title: 'Mobile App Engineer',
+        avatar: 'https://i.pravatar.cc/150?u=7',
+        rating: 4.7,
+        courses: 6,
+        bio: 'Builds high-performance mobile apps using React Native and Flutter.'
+    },
+    {
+        id: 8,
+        name: 'Hiro Tanaka',
+        title: 'DevOps Specialist',
+        avatar: 'https://i.pravatar.cc/150?u=8',
+        rating: 4.9,
+        courses: 11,
+        bio: 'Automates CI/CD pipelines and infrastructure as code for rapid software delivery.'
+    },
+    {
+        id: 9,
+        name: 'Elena Petrova',
+        title: 'Database Administrator',
+        avatar: 'https://i.pravatar.cc/150?u=9',
+        rating: 4.8,
+        courses: 7,
+        bio: 'Expert in SQL and NoSQL databases, focusing on performance tuning and security.'
+    },
+    {
+        id: 10,
+        name: 'Carlos Mendez',
+        title: 'Network Engineer',
+        avatar: 'https://i.pravatar.cc/150?u=10',
+        rating: 4.7,
+        courses: 8,
+        bio: 'Designs and maintains secure, high-availability network infrastructures.'
+    }
+];
+
 // Instructor data for instructor dashboard
-export const instructorData = {
+export const singleInstructorDashboardData = {
     classes: [
         {
             id: 1,

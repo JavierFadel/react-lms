@@ -1,4 +1,6 @@
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api/v1';
+// Change to this once API is working
+// const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api/v1';
+const API_BASE_URL = 'http://localhost:3001/api/v1';
 
 // API response wrapper
 const apiResponse = (data, error = null) => ({
