@@ -1,5 +1,5 @@
 // src/hooks/useLocalStorage.js
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export const useLocalStorage = (key, initialValue) => {
     // Get from local storage then parse stored json or return initialValue
@@ -118,9 +118,19 @@ export const useQuizProgress = () => {
         }));
     };
 
-    const getQuizProgress = (quizId) => {
-        return progress[quizId] || null;
-    };
+    // const getQuizProgress = (quizId) => {
+    //     return progress[quizId] || null;
+    // };
+
+    const getQuizProgress = useCallback((quizId) => {
+        try {
+            const item = window.localStorage.getItem(`quiz_progress_${quizId}`);
+            return item ? JSON.parse(item) : null;
+        } catch (error) {
+            console.error("Error getting quiz progress:", error);
+            return null;
+        }
+    }, []);
 
     const clearQuizProgress = (quizId) => {
         setProgress(prev => {

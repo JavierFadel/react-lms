@@ -121,6 +121,8 @@ export const quizService = {
     // Submit quiz answers
     submitQuizAnswers: async ({ quizId, answers, timeTaken }) => {
         await simulateApiDelay(500);
+
+        // console.log(answers);
         
         const quiz = quizData.find(q => q.id === quizId);
         if (!quiz) {
