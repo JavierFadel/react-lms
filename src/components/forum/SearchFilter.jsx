@@ -12,34 +12,46 @@ import { Search } from 'lucide-react';
  * @param {Array<object>} props.categories - Daftar kategori untuk opsi filter.
  * @param {string} props.currentFilter - Nilai filter yang sedang aktif.
  */
-const SearchFilter = ({ onSearchChange, onFilterChange, categories, currentFilter }) => {
+const SearchFilter = ({ filters, onFilterChange, categories }) => {
+    const sortOptions = [
+        { value: 'latest', label: 'Terbaru' },
+        { value: 'popular', label: 'Popularitas' },
+        { value: 'solved', label: 'Terpecahkan' },
+    ];
+
     return (
-        <div className="p-4 bg-white rounded-lg shadow-sm border flex flex-col md:flex-row items-center gap-4">
-            {/* Input Pencarian */}
-            <div className="relative w-full md:w-2/3">
+        <div className="bg-white border rounded-md border-gray-200 p-4 flex flex-col md:flex-row gap-4 items-center">
+            <div className="relative flex-grow w-full">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <Input
+                <input
                     type="text"
-                    placeholder="Cari utas diskusi..."
-                    className="pl-10"
-                    onChange={(e) => onSearchChange(e.target.value)}
+                    placeholder="Search for threads..."
+                    className="input-field pl-10"
+                    onChange={(e) => onFilterChange('keyword', e.target.value)}
                 />
             </div>
-
-            {/* Dropdown Filter */}
-            <div className="w-full md:w-1/3">
-                <select
-                    value={currentFilter}
-                    onChange={(e) => onFilterChange(e.target.value)}
-                    className="w-full p-2 h-10 border border-input bg-background rounded-md text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                >
-                    <option value="all">Semua Kategori</option>
-                    {categories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                            {category.name}
-                        </option>
-                    ))}
-                </select>
+            <div className="flex gap-4 w-full md:w-auto">
+                <div className="relative flex-shrink-0 w-1/2 md:w-48">
+                    <select 
+                        className="input-field appearance-none"
+                        onChange={(e) => onFilterChange('category', e.target.value)}
+                        value={filters.category}
+                    >
+                        <option value="all">All Categories</option>
+                        {categories.map((category) => (
+                            <option key={category.id} value={category.id}>
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                </div>
+                <div className="relative flex-shrink-0 w-1/2 md:w-48">
+                    <select value={filters.sortBy} onChange={(e) => onFilterChange('sortBy', e.target.value)} className="input-field appearance-none">
+                        {sortOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                </div>
             </div>
         </div>
     );

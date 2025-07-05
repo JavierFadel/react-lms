@@ -665,6 +665,48 @@ export const forumCategories = [
         description: "General learning and career discussions",
         threadCount: 203,
         color: "#8b5cf6"
+    },
+    {
+        id: 5,
+        name: "React",
+        description: "React.js framework discussions, tips, and best practices",
+        threadCount: 89,
+        color: "#61dafb"
+    },
+    {
+        id: 6,
+        name: "CSS",
+        description: "CSS styling, layouts, animations, and design techniques",
+        threadCount: 67,
+        color: "#264de4"
+    },
+    {
+        id: 7,
+        name: "Frontend",
+        description: "Frontend development, UI/UX, and client-side technologies",
+        threadCount: 112,
+        color: "#ff6b6b"
+    },
+    {
+        id: 8,
+        name: "Backend",
+        description: "Server-side development, APIs, and backend technologies",
+        threadCount: 94,
+        color: "#4ecdc4"
+    },
+    {
+        id: 9,
+        name: "Mobile",
+        description: "Mobile app development for iOS, Android, and cross-platform",
+        threadCount: 73,
+        color: "#a8e6cf"
+    },
+    {
+        id: 10,
+        name: "DevOps",
+        description: "DevOps practices, CI/CD, deployment, and infrastructure",
+        threadCount: 58,
+        color: "#ff9ff3"
     }
 ];
 
@@ -754,6 +796,161 @@ export const forumThreads = [
         isHot: false
     }
 ];
+
+export const forumThreadDetail = {
+    thread1: {
+        id: '1',
+        title: 'Best practices for React state management in 2025?',
+        author: { id: 'user2', name: 'Jane Doe', avatar: 'https://placehold.co/100x100/FBCFE8/9D27B0?text=J', points: 800, badge: 'React Guru' },
+        createdAt: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
+        tags: ['react', 'state-management', 'zustand'],
+        upvotes: 25,
+        isPinned: true,
+        isSolved: false,
+        content: "I'm starting a new large-scale project and I'm debating between using Redux Toolkit, Zustand, or just relying on React Context. The project will have complex state requirements including user authentication, real-time data, and offline capabilities. What are the current best practices for 2025?",
+        replies: [
+            { id: 'reply1', parentId: null, author: { id: 'user4', name: 'Mike Lee', avatar: 'https://placehold.co/100x100/C7D2FE/4338CA?text=M', points: 450, badge: 'Helper' }, content: "Zustand is great for simplicity and has excellent TypeScript support. For your use case, I'd recommend Zustand with React Query for server state.", createdAt: new Date(Date.now() - 1000 * 60 * 25).toISOString() },
+            { id: 'reply2', parentId: 'reply1', author: { id: 'user1', name: 'Javier Fadel', avatar: 'https://placehold.co/100x100/DBEAFE/1E40AF?text=JF', points: 1250, badge: 'Top Contributor' }, content: "@Mike Lee I agree! It scales surprisingly well. I've used it in production with 100k+ users and it performs great.", createdAt: new Date(Date.now() - 1000 * 60 * 20).toISOString() },
+            { id: 'reply3', parentId: null, author: { id: 'user6', name: 'Sarah Wilson', avatar: 'https://placehold.co/100x100/FEF3C7/F59E0B?text=SW', points: 920, badge: 'React Expert' }, content: "Consider Redux Toolkit if you need time-travel debugging or have a team already familiar with Redux patterns.", createdAt: new Date(Date.now() - 1000 * 60 * 15).toISOString() }
+        ]
+    },
+    thread2: {
+        id: '2',
+        title: 'Database indexing strategies for large datasets',
+        author: { id: 'user3', name: 'Maria Database', avatar: 'https://placehold.co/100x100/D1FAE5/059669?text=MD', points: 389, badge: 'Database Expert' },
+        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
+        tags: ['database', 'indexing', 'performance', 'optimization'],
+        upvotes: 23,
+        isPinned: true,
+        isSolved: false,
+        content: "Working with a table that has over 10 million records. The table has columns for user_id, created_at, status, and category. What indexing strategies should I consider for optimal query performance?",
+        replies: [
+            { id: 'reply1', parentId: null, author: { id: 'user7', name: 'Fatima Zahra', avatar: 'https://placehold.co/100x100/EDE9FE/7C3AED?text=FZ', points: 678, badge: 'Performance Guru' }, content: "Start with a composite index on (user_id, created_at) since you'll likely query by user and date range. Also consider partial indexes for status if it has low cardinality.", createdAt: new Date(Date.now() - 1000 * 60 * 55).toISOString() },
+            { id: 'reply2', parentId: 'reply1', author: { id: 'user8', name: 'David Chen', avatar: 'https://placehold.co/100x100/FEE2E2/DC2626?text=DC', points: 445, badge: 'Helper' }, content: "@Fatima Zahra Great advice! Also consider covering indexes if you're frequently selecting specific columns.", createdAt: new Date(Date.now() - 1000 * 60 * 50).toISOString() }
+        ]
+    },
+    thread3: {
+        id: '3',
+        title: 'Career advice: Frontend vs Full-stack developer',
+        author: { id: 'user9', name: 'Alex Newbie', avatar: 'https://placehold.co/100x100/E0E7FF/3730A3?text=AN', points: 67, badge: 'Newcomer' },
+        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 4).toISOString(),
+        tags: ['career', 'frontend', 'full-stack', 'advice'],
+        upvotes: 7,
+        isPinned: false,
+        isSolved: false,
+        content: "I'm a junior developer trying to decide between specializing in frontend or becoming a full-stack developer. I enjoy both UI work and backend logic. What are your experiences and recommendations?",
+        replies: [
+            { id: 'reply1', parentId: null, author: { id: 'user10', name: 'Ben Carter', avatar: 'https://placehold.co/100x100/FEF3C7/F59E0B?text=BC', points: 756, badge: 'Senior Dev' }, content: "Start with frontend specialization to build a strong foundation, then gradually expand to backend. Full-stack knowledge is valuable but frontend expertise is highly sought after.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString() },
+            { id: 'reply2', parentId: 'reply1', author: { id: 'user11', name: 'Lisa Anderson', avatar: 'https://placehold.co/100x100/ECFDF5/047857?text=LA', points: 892, badge: 'Tech Lead' }, content: "@Ben Carter Agreed! Also consider the market demand in your area. Frontend specialists often have more remote opportunities.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString() },
+            { id: 'reply3', parentId: null, author: { id: 'user12', name: 'Tom Rodriguez', avatar: 'https://placehold.co/100x100/FEE2E2/DC2626?text=TR', points: 334, badge: 'Helper' }, content: "Don't forget about DevOps skills too! Understanding deployment and CI/CD is valuable regardless of your specialization.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 1).toISOString() }
+        ]
+    },
+    thread4: {
+        id: '4',
+        title: 'SQL Query Optimization Techniques',
+        author: { id: 'user13', name: 'Elena Petrova', avatar: 'https://placehold.co/100x100/DBEAFE/1E40AF?text=EP', points: 567, badge: 'Database Admin' },
+        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 6).toISOString(),
+        tags: ['sql', 'optimization', 'performance', 'database'],
+        upvotes: 18,
+        isPinned: false,
+        isSolved: true,
+        content: "What are the most effective techniques for optimizing slow SQL queries? I'm dealing with complex joins and subqueries that are taking too long to execute.",
+        replies: [
+            { id: 'reply1', parentId: null, author: { id: 'user14', name: 'Kevin Wilson', avatar: 'https://placehold.co/100x100/FEF3C7/F59E0B?text=KW', points: 723, badge: 'Performance Expert' }, content: "First, use EXPLAIN to analyze query plans. Look for table scans and consider adding indexes. Also, avoid SELECT * and use specific columns.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString() },
+            { id: 'reply2', parentId: 'reply1', author: { id: 'user15', name: 'Nina Patel', avatar: 'https://placehold.co/100x100/EDE9FE/7C3AED?text=NP', points: 456, badge: 'Helper' }, content: "@Kevin Wilson Great points! Also consider query rewriting to eliminate unnecessary subqueries and use window functions where appropriate.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 4).toISOString() }
+        ]
+    },
+    thread5: {
+        id: '5',
+        title: 'React Native vs Flutter for Cross-Platform Development',
+        author: { id: 'user16', name: 'Sofia Rossi', avatar: 'https://placehold.co/100x100/FEE2E2/DC2626?text=SR', points: 445, badge: 'Mobile Dev' },
+        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 8).toISOString(),
+        tags: ['mobile', 'react-native', 'flutter', 'cross-platform'],
+        upvotes: 31,
+        isPinned: false,
+        isSolved: false,
+        content: "I need to choose between React Native and Flutter for a new mobile app project. The app will have complex UI animations and real-time features. Which platform would you recommend?",
+        replies: [
+            { id: 'reply1', parentId: null, author: { id: 'user17', name: 'Hiro Tanaka', avatar: 'https://placehold.co/100x100/D1FAE5/059669?text=HT', points: 678, badge: 'Mobile Expert' }, content: "Flutter has better performance for animations and a more consistent UI across platforms. React Native is better if your team already knows React.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 7).toISOString() },
+            { id: 'reply2', parentId: 'reply1', author: { id: 'user18', name: 'Carlos Mendez', avatar: 'https://placehold.co/100x100/E0E7FF/3730A3?text=CM', points: 389, badge: 'Helper' }, content: "@Hiro Tanaka I agree! Also consider the ecosystem - React Native has more third-party libraries, but Flutter's built-in widgets are more polished.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 6).toISOString() }
+        ]
+    },
+    thread6: {
+        id: '6',
+        title: 'Docker Best Practices for Production',
+        author: { id: 'user19', name: 'Liam O\'Connor', avatar: 'https://placehold.co/100x100/FEF3C7/F59E0B?text=LO', points: 567, badge: 'DevOps Engineer' },
+        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 10).toISOString(),
+        tags: ['docker', 'devops', 'production', 'best-practices'],
+        upvotes: 22,
+        isPinned: false,
+        isSolved: false,
+        content: "What are the essential Docker best practices for production deployments? I'm setting up containers for a Node.js application with Redis and PostgreSQL.",
+        replies: [
+            { id: 'reply1', parentId: null, author: { id: 'user20', name: 'Priya Patel', avatar: 'https://placehold.co/100x100/ECFDF5/047857?text=PP', points: 789, badge: 'Cloud Architect' }, content: "Use multi-stage builds to reduce image size, run containers as non-root users, and implement health checks. Also consider using Docker Compose for local development.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 9).toISOString() },
+            { id: 'reply2', parentId: 'reply1', author: { id: 'user21', name: 'Marcus Chen', avatar: 'https://placehold.co/100x100/DBEAFE/1E40AF?text=MC', points: 634, badge: 'Helper' }, content: "@Priya Patel Don't forget to set resource limits and use .dockerignore to exclude unnecessary files from the build context.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 8).toISOString() }
+        ]
+    },
+    thread7: {
+        id: '7',
+        title: 'AWS Lambda Cold Start Optimization',
+        author: { id: 'user22', name: 'Aisha Khan', avatar: 'https://placehold.co/100x100/EDE9FE/7C3AED?text=AK', points: 456, badge: 'Cloud Specialist' },
+        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString(),
+        tags: ['aws', 'lambda', 'serverless', 'performance'],
+        upvotes: 19,
+        isPinned: false,
+        isSolved: true,
+        content: "How can I minimize cold start times for AWS Lambda functions? My functions are taking 2-3 seconds to start, which is affecting user experience.",
+        replies: [
+            { id: 'reply1', parentId: null, author: { id: 'user23', name: 'Robert Taylor', avatar: 'https://placehold.co/100x100/FEE2E2/DC2626?text=RT', points: 567, badge: 'AWS Expert' }, content: "Use provisioned concurrency for critical functions, keep dependencies minimal, and consider using Lambda Extensions for initialization tasks.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 11).toISOString() },
+            { id: 'reply2', parentId: 'reply1', author: { id: 'user24', name: 'Emily Davis', avatar: 'https://placehold.co/100x100/D1FAE5/059669?text=ED', points: 445, badge: 'Helper' }, content: "@Robert Taylor Also consider using Lambda SnapStart for Java functions and keeping your deployment package under 50MB.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 10).toISOString() }
+        ]
+    },
+    thread8: {
+        id: '8',
+        title: 'TypeScript vs JavaScript for Large Projects',
+        author: { id: 'user25', name: 'Chris Martinez', avatar: 'https://placehold.co/100x100/E0E7FF/3730A3?text=CM', points: 334, badge: 'Developer' },
+        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 14).toISOString(),
+        tags: ['typescript', 'javascript', 'development', 'best-practices'],
+        upvotes: 28,
+        isPinned: false,
+        isSolved: false,
+        content: "My team is debating whether to migrate our large JavaScript codebase to TypeScript. What are the pros and cons, and is it worth the effort?",
+        replies: [
+            { id: 'reply1', parentId: null, author: { id: 'user26', name: 'Dr. Evelyn Reed', avatar: 'https://placehold.co/100x100/FEF3C7/F59E0B?text=ER', points: 890, badge: 'Tech Lead' }, content: "TypeScript provides better IDE support, catches errors at compile time, and improves code maintainability. The migration effort is worth it for large projects.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 13).toISOString() },
+            { id: 'reply2', parentId: 'reply1', author: { id: 'user27', name: 'Alex Thompson', avatar: 'https://placehold.co/100x100/ECFDF5/047857?text=AT', points: 567, badge: 'Helper' }, content: "@Dr. Evelyn Reed Start with gradual migration using allowJs and strict: false, then gradually enable stricter settings.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString() }
+        ]
+    },
+    thread9: {
+        id: '9',
+        title: 'GraphQL vs REST API Design',
+        author: { id: 'user28', name: 'Lisa Anderson', avatar: 'https://placehold.co/100x100/DBEAFE/1E40AF?text=LA', points: 678, badge: 'API Specialist' },
+        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 16).toISOString(),
+        tags: ['graphql', 'rest', 'api', 'design'],
+        upvotes: 35,
+        isPinned: false,
+        isSolved: false,
+        content: "When designing a new API, should I choose GraphQL or REST? The API will serve multiple client applications with different data requirements.",
+        replies: [
+            { id: 'reply1', parentId: null, author: { id: 'user29', name: 'Ben Carter', avatar: 'https://placehold.co/100x100/FEE2E2/DC2626?text=BC', points: 756, badge: 'Senior Dev' }, content: "GraphQL is great for flexible data fetching and reducing over-fetching/under-fetching. REST is simpler to implement and has better caching. Consider your team's expertise.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 15).toISOString() },
+            { id: 'reply2', parentId: 'reply1', author: { id: 'user30', name: 'Maria Garcia', avatar: 'https://placehold.co/100x100/EDE9FE/7C3AED?text=MG', points: 445, badge: 'Helper' }, content: "@Ben Carter Also consider that GraphQL has a steeper learning curve but provides better developer experience for complex data relationships.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 14).toISOString() }
+        ]
+    },
+    thread10: {
+        id: '10',
+        title: 'Microservices vs Monolith Architecture',
+        author: { id: 'user31', name: 'Kevin Wilson', avatar: 'https://placehold.co/100x100/D1FAE5/059669?text=KW', points: 723, badge: 'Architecture Expert' },
+        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 18).toISOString(),
+        tags: ['microservices', 'monolith', 'architecture', 'scalability'],
+        upvotes: 42,
+        isPinned: true,
+        isSolved: false,
+        content: "Our startup is growing and considering whether to break our monolith into microservices. What are the trade-offs and when is the right time to make this transition?",
+        replies: [
+            { id: 'reply1', parentId: null, author: { id: 'user32', name: 'Hiro Tanaka', avatar: 'https://placehold.co/100x100/FEF3C7/F59E0B?text=HT', points: 678, badge: 'DevOps Specialist' }, content: "Start with a monolith and only break into microservices when you have clear bounded contexts and the complexity justifies the overhead. Premature microservices can be a disaster.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 17).toISOString() },
+            { id: 'reply2', parentId: 'reply1', author: { id: 'user33', name: 'Elena Petrova', avatar: 'https://placehold.co/100x100/ECFDF5/047857?text=EP', points: 567, badge: 'Helper' }, content: "@Hiro Tanaka Agreed! Also consider your team size and deployment infrastructure. Microservices require more operational complexity.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 16).toISOString() }
+        ]
+    }
+};
 
 export const forumReplies = [
     {
@@ -1093,4 +1290,375 @@ export const studentPerformanceData = [
     { subject: 'Node.js', 'Skor Saya': 85, 'Rata-rata Kelas': 90, fullMark: 150 },
   ];
 
-  
+// User dummy data
+export const users = [
+    {
+        id: 1,
+        name: "Javier Fadel",
+        email: "javier.fadel@university.edu",
+        avatar: "https://placehold.co/100x100/DBEAFE/1E40AF?text=JF",
+        role: "student",
+        level: "Advanced",
+        totalPoints: 1250,
+        studyStreak: 12,
+        totalStudyHours: 67.5,
+        joinedAt: "2024-01-15T00:00:00Z",
+        reputation: 1250,
+        badge: "Top Contributor",
+        preferences: {
+            theme: "dark",
+            notifications: true,
+            emailUpdates: true,
+            language: "en"
+        },
+        stats: {
+            modulesCompleted: 8,
+            quizzesCompleted: 15,
+            forumPosts: 23,
+            achievements: 7
+        },
+        bio: "Passionate full-stack developer with expertise in React and Node.js. Always eager to help others learn and grow.",
+        lastActive: "2024-07-04T18:30:00Z",
+        status: "active"
+    },
+    {
+        id: 2,
+        name: "Jane Doe",
+        email: "jane.doe@techcorp.com",
+        avatar: "https://placehold.co/100x100/FBCFE8/9D27B0?text=JD",
+        role: "instructor",
+        level: "Expert",
+        totalPoints: 800,
+        studyStreak: 0,
+        totalStudyHours: 0,
+        joinedAt: "2023-08-20T00:00:00Z",
+        reputation: 800,
+        badge: "React Guru",
+        preferences: {
+            theme: "light",
+            notifications: true,
+            emailUpdates: false,
+            language: "en"
+        },
+        stats: {
+            modulesCompleted: 0,
+            quizzesCompleted: 0,
+            forumPosts: 45,
+            achievements: 12
+        },
+        bio: "Senior React developer with 8+ years of experience. Specializes in state management and performance optimization.",
+        lastActive: "2024-07-04T16:45:00Z",
+        status: "active",
+        title: "Senior React Developer",
+        rating: 4.9,
+        courses: 8
+    },
+    {
+        id: 3,
+        name: "Maria Database",
+        email: "maria.database@datatech.com",
+        avatar: "https://placehold.co/100x100/D1FAE5/059669?text=MD",
+        role: "instructor",
+        level: "Expert",
+        totalPoints: 389,
+        studyStreak: 0,
+        totalStudyHours: 0,
+        joinedAt: "2023-11-10T00:00:00Z",
+        reputation: 389,
+        badge: "Database Expert",
+        preferences: {
+            theme: "light",
+            notifications: true,
+            emailUpdates: true,
+            language: "en"
+        },
+        stats: {
+            modulesCompleted: 0,
+            quizzesCompleted: 0,
+            forumPosts: 67,
+            achievements: 9
+        },
+        bio: "Database architect with expertise in PostgreSQL, MySQL, and NoSQL solutions. Performance tuning specialist.",
+        lastActive: "2024-07-03T14:20:00Z",
+        status: "active",
+        title: "Database Architect",
+        rating: 4.8,
+        courses: 5
+    },
+    {
+        id: 4,
+        name: "Mike Lee",
+        email: "mike.lee@startup.io",
+        avatar: "https://placehold.co/100x100/C7D2FE/4338CA?text=ML",
+        role: "student",
+        level: "Intermediate",
+        totalPoints: 450,
+        studyStreak: 5,
+        totalStudyHours: 28.3,
+        joinedAt: "2024-03-05T00:00:00Z",
+        reputation: 450,
+        badge: "Helper",
+        preferences: {
+            theme: "light",
+            notifications: false,
+            emailUpdates: false,
+            language: "en"
+        },
+        stats: {
+            modulesCompleted: 5,
+            quizzesCompleted: 12,
+            forumPosts: 18,
+            achievements: 3
+        },
+        bio: "Frontend developer learning React and modern web technologies. Enjoys helping others solve coding challenges.",
+        lastActive: "2024-07-04T12:15:00Z",
+        status: "active"
+    },
+    {
+        id: 5,
+        name: "Sarah Wilson",
+        email: "sarah.wilson@webdev.com",
+        avatar: "https://placehold.co/100x100/FEF3C7/F59E0B?text=SW",
+        role: "instructor",
+        level: "Expert",
+        totalPoints: 920,
+        studyStreak: 0,
+        totalStudyHours: 0,
+        joinedAt: "2023-09-15T00:00:00Z",
+        reputation: 920,
+        badge: "React Expert",
+        preferences: {
+            theme: "dark",
+            notifications: true,
+            emailUpdates: true,
+            language: "en"
+        },
+        stats: {
+            modulesCompleted: 0,
+            quizzesCompleted: 0,
+            forumPosts: 89,
+            achievements: 15
+        },
+        bio: "React consultant and trainer. Author of several popular React courses and technical articles.",
+        lastActive: "2024-07-04T17:30:00Z",
+        status: "active",
+        title: "React Consultant",
+        rating: 4.9,
+        courses: 12
+    },
+    {
+        id: 6,
+        name: "Alex Newbie",
+        email: "alex.newbie@student.edu",
+        avatar: "https://placehold.co/100x100/E0E7FF/3730A3?text=AN",
+        role: "student",
+        level: "Beginner",
+        totalPoints: 67,
+        studyStreak: 3,
+        totalStudyHours: 12.5,
+        joinedAt: "2024-06-01T00:00:00Z",
+        reputation: 67,
+        badge: "Newcomer",
+        preferences: {
+            theme: "light",
+            notifications: true,
+            emailUpdates: true,
+            language: "en"
+        },
+        stats: {
+            modulesCompleted: 2,
+            quizzesCompleted: 4,
+            forumPosts: 7,
+            achievements: 1
+        },
+        bio: "Junior developer just starting my journey in web development. Excited to learn and grow with the community.",
+        lastActive: "2024-07-04T10:45:00Z",
+        status: "active"
+    },
+    {
+        id: 7,
+        name: "Fatima Zahra",
+        email: "fatima.zahra@perftech.com",
+        avatar: "https://placehold.co/100x100/EDE9FE/7C3AED?text=FZ",
+        role: "instructor",
+        level: "Expert",
+        totalPoints: 678,
+        studyStreak: 0,
+        totalStudyHours: 0,
+        joinedAt: "2023-12-01T00:00:00Z",
+        reputation: 678,
+        badge: "Performance Guru",
+        preferences: {
+            theme: "light",
+            notifications: true,
+            emailUpdates: false,
+            language: "en"
+        },
+        stats: {
+            modulesCompleted: 0,
+            quizzesCompleted: 0,
+            forumPosts: 56,
+            achievements: 8
+        },
+        bio: "Performance optimization specialist with deep knowledge of database tuning and system architecture.",
+        lastActive: "2024-07-03T15:10:00Z",
+        status: "active",
+        title: "Performance Engineer",
+        rating: 4.7,
+        courses: 6
+    },
+    {
+        id: 8,
+        name: "David Chen",
+        email: "david.chen@devstudio.com",
+        avatar: "https://placehold.co/100x100/FEE2E2/DC2626?text=DC",
+        role: "student",
+        level: "Intermediate",
+        totalPoints: 445,
+        studyStreak: 8,
+        totalStudyHours: 35.2,
+        joinedAt: "2024-02-20T00:00:00Z",
+        reputation: 445,
+        badge: "Helper",
+        preferences: {
+            theme: "dark",
+            notifications: true,
+            emailUpdates: false,
+            language: "en"
+        },
+        stats: {
+            modulesCompleted: 6,
+            quizzesCompleted: 14,
+            forumPosts: 22,
+            achievements: 4
+        },
+        bio: "Full-stack developer passionate about clean code and best practices. Always learning new technologies.",
+        lastActive: "2024-07-04T14:20:00Z",
+        status: "active"
+    },
+    {
+        id: 9,
+        name: "Ben Carter",
+        email: "ben.carter@uxstudio.com",
+        avatar: "https://placehold.co/100x100/FEF3C7/F59E0B?text=BC",
+        role: "instructor",
+        level: "Expert",
+        totalPoints: 756,
+        studyStreak: 0,
+        totalStudyHours: 0,
+        joinedAt: "2023-10-05T00:00:00Z",
+        reputation: 756,
+        badge: "Senior Dev",
+        preferences: {
+            theme: "light",
+            notifications: true,
+            emailUpdates: true,
+            language: "en"
+        },
+        stats: {
+            modulesCompleted: 0,
+            quizzesCompleted: 0,
+            forumPosts: 78,
+            achievements: 11
+        },
+        bio: "Senior developer with expertise in frontend technologies and user experience design.",
+        lastActive: "2024-07-04T16:00:00Z",
+        status: "active",
+        title: "Senior Frontend Developer",
+        rating: 4.8,
+        courses: 9
+    },
+    {
+        id: 10,
+        name: "Lisa Anderson",
+        email: "lisa.anderson@techlead.com",
+        avatar: "https://placehold.co/100x100/ECFDF5/047857?text=LA",
+        role: "instructor",
+        level: "Expert",
+        totalPoints: 892,
+        studyStreak: 0,
+        totalStudyHours: 0,
+        joinedAt: "2023-07-20T00:00:00Z",
+        reputation: 892,
+        badge: "Tech Lead",
+        preferences: {
+            theme: "dark",
+            notifications: true,
+            emailUpdates: true,
+            language: "en"
+        },
+        stats: {
+            modulesCompleted: 0,
+            quizzesCompleted: 0,
+            forumPosts: 95,
+            achievements: 13
+        },
+        bio: "Technical lead with 10+ years of experience in software architecture and team leadership.",
+        lastActive: "2024-07-04T18:15:00Z",
+        status: "active",
+        title: "Technical Lead",
+        rating: 4.9,
+        courses: 15
+    },
+    {
+        id: 11,
+        name: "Tom Rodriguez",
+        email: "tom.rodriguez@student.edu",
+        avatar: "https://placehold.co/100x100/FEE2E2/DC2626?text=TR",
+        role: "student",
+        level: "Beginner",
+        totalPoints: 334,
+        studyStreak: 6,
+        totalStudyHours: 18.7,
+        joinedAt: "2024-04-10T00:00:00Z",
+        reputation: 334,
+        badge: "Helper",
+        preferences: {
+            theme: "light",
+            notifications: true,
+            emailUpdates: false,
+            language: "en"
+        },
+        stats: {
+            modulesCompleted: 3,
+            quizzesCompleted: 8,
+            forumPosts: 12,
+            achievements: 2
+        },
+        bio: "Computer science student learning web development. Interested in both frontend and backend technologies.",
+        lastActive: "2024-07-04T11:30:00Z",
+        status: "active"
+    },
+    {
+        id: 12,
+        name: "Elena Petrova",
+        email: "elena.petrova@dbadmin.com",
+        avatar: "https://placehold.co/100x100/DBEAFE/1E40AF?text=EP",
+        role: "instructor",
+        level: "Expert",
+        totalPoints: 567,
+        studyStreak: 0,
+        totalStudyHours: 0,
+        joinedAt: "2023-11-15T00:00:00Z",
+        reputation: 567,
+        badge: "Database Admin",
+        preferences: {
+            theme: "light",
+            notifications: true,
+            emailUpdates: true,
+            language: "en"
+        },
+        stats: {
+            modulesCompleted: 0,
+            quizzesCompleted: 0,
+            forumPosts: 43,
+            achievements: 6
+        },
+        bio: "Database administrator specializing in PostgreSQL and performance optimization.",
+        lastActive: "2024-07-03T13:45:00Z",
+        status: "active",
+        title: "Database Administrator",
+        rating: 4.8,
+        courses: 7
+    }
+];

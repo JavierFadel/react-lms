@@ -5,8 +5,19 @@ import {
     useCallback,
     useMemo
 } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getForumThreads } from '../services/forumService';
+import { forumService } from '../services/forumService.js';
+
+// Query keys for forum data
+export const forumKeys = {
+    all: ['forum'],
+    threads: (params) => [...forumKeys.all, 'threads', params],
+    thread: (id) => [...forumKeys.all, 'thread', id],
+    categories: () => [...forumKeys.all, 'categories'],
+    search: (query, filters) => [...forumKeys.all, 'search', query, filters],
+    userStats: (userId) => [...forumKeys.all, 'user-stats', userId],
+};
 
 export const useForum = () => {
     const [threads, setThreads] = useState([]);
@@ -353,5 +364,394 @@ export const useForumThreads = () => {
     return useQuery({
         queryKey: ['forumThreads'],
         queryFn: getForumThreads,
+    });
+};
+
+// Hook to get all threads with pagination and filtering
+export const useThreads = (params = {}) => {
+    return useQuery({
+        queryKey: forumKeys.threads(params),
+        queryFn: () => forumService.getThreads(params),
+        staleTime: 5 * 60 * 1000, // 5 minutes
+        gcTime: 10 * 60 * 1000, // 10 minutes
+    });
+};
+
+// Hook to get threads by category
+export const useThreadsByCategory = (categoryId, params = {}) => {
+    return useQuery({
+        queryKey: forumKeys.threads({ ...params, categoryId }),
+        queryFn: () => forumService.getThreadsByCategory({ categoryId, ...params }),
+        enabled: !!categoryId,
+        staleTime: 5 * 60 * 1000,
+        gcTime: 10 * 60 * 1000,
+    });
+};
+
+// Hook to get all categories
+export const useCategories = () => {
+    return useQuery({
+        queryKey: forumKeys.categories(),
+        queryFn: () => forumService.getCategories(),
+        staleTime: 30 * 60 * 1000, // 30 minutes
+        gcTime: 60 * 60 * 1000, // 1 hour
+    });
+};
+
+// Hook to get a single thread by ID
+export const useThread = (threadId) => {
+    return useQuery({
+        queryKey: forumKeys.thread(threadId),
+        queryFn: () => forumService.getThreadById(threadId),
+        enabled: !!threadId,
+        staleTime: 2 * 60 * 1000, // 2 minutes
+        gcTime: 5 * 60 * 1000, // 5 minutes
+    });
+};
+
+// Hook to search threads
+export const useSearchThreads = (query, filters = {}) => {
+    return useQuery({
+        queryKey: forumKeys.search(query, filters),
+        queryFn: () => forumService.searchThreads({ query, filters }),
+        enabled: !!query && query.length > 2, // Only search if query is longer than 2 characters
+        staleTime: 2 * 60 * 1000,
+        gcTime: 5 * 60 * 1000,
+    });
+};
+
+// Hook to get user forum statistics
+export const useUserForumStats = (userId) => {
+    return useQuery({
+        queryKey: forumKeys.userStats(userId),
+        queryFn: () => forumService.getUserForumStats(userId),
+        enabled: !!userId,
+        staleTime: 10 * 60 * 1000, // 10 minutes
+        gcTime: 30 * 60 * 1000, // 30 minutes
+    });
+};
+
+// Mutation hooks
+export const useCreateThread = () => {
+    const queryClient = useQueryClient();
+    
+    return useMutation({
+        mutationFn: (threadData) => forumService.createThread(threadData),
+        onSuccess: (newThread) => {
+            // Invalidate and refetch threads
+            queryClient.invalidateQueries({ queryKey: forumKeys.threads() });
+            
+            // Add the new thread to the cache
+            queryClient.setQueryData(
+                forumKeys.thread(newThread.id),
+                newThread
+            );
+        },
+        onError: (error) => {
+            console.error('Failed to create thread:', error);
+        },
+    });
+};
+
+export const useUpdateThread = () => {
+    const queryClient = useQueryClient();
+    
+    return useMutation({
+        mutationFn: ({ threadId, threadData }) => forumService.updateThread({ threadId, threadData }),
+        onSuccess: (updatedThread) => {
+            // Update the thread in cache
+            queryClient.setQueryData(
+                forumKeys.thread(updatedThread.id),
+                updatedThread
+            );
+            
+            // Invalidate threads list to reflect changes
+            queryClient.invalidateQueries({ queryKey: forumKeys.threads() });
+        },
+        onError: (error) => {
+            console.error('Failed to update thread:', error);
+        },
+    });
+};
+
+export const useDeleteThread = () => {
+    const queryClient = useQueryClient();
+    
+    return useMutation({
+        mutationFn: (threadId) => forumService.deleteThread(threadId),
+        onSuccess: (_, threadId) => {
+            // Remove thread from cache
+            queryClient.removeQueries({ queryKey: forumKeys.thread(threadId) });
+            
+            // Invalidate threads list
+            queryClient.invalidateQueries({ queryKey: forumKeys.threads() });
+        },
+        onError: (error) => {
+            console.error('Failed to delete thread:', error);
+        },
+    });
+};
+
+export const useAddReply = () => {
+    const queryClient = useQueryClient();
+    
+    return useMutation({
+        mutationFn: ({ threadId, replyData }) => forumService.addReply({ threadId, replyData }),
+        onSuccess: (newReply, { threadId }) => {
+            // Update the thread with the new reply
+            queryClient.setQueryData(
+                forumKeys.thread(threadId),
+                (oldData) => {
+                    if (!oldData) return oldData;
+                    return {
+                        ...oldData,
+                        replies: [...(oldData.replies || []), newReply],
+                        replies: (oldData.replies || 0) + 1,
+                    };
+                }
+            );
+            
+            // Invalidate threads list to update reply count
+            queryClient.invalidateQueries({ queryKey: forumKeys.threads() });
+        },
+        onError: (error) => {
+            console.error('Failed to add reply:', error);
+        },
+    });
+};
+
+export const useUpdateReply = () => {
+    const queryClient = useQueryClient();
+    
+    return useMutation({
+        mutationFn: ({ threadId, replyId, replyData }) => 
+            forumService.updateReply({ threadId, replyId, replyData }),
+        onSuccess: (updatedReply, { threadId }) => {
+            // Update the reply in the thread cache
+            queryClient.setQueryData(
+                forumKeys.thread(threadId),
+                (oldData) => {
+                    if (!oldData) return oldData;
+                    return {
+                        ...oldData,
+                        replies: (oldData.replies || []).map(reply => 
+                            reply.id === updatedReply.id ? updatedReply : reply
+                        ),
+                    };
+                }
+            );
+        },
+        onError: (error) => {
+            console.error('Failed to update reply:', error);
+        },
+    });
+};
+
+export const useDeleteReply = () => {
+    const queryClient = useQueryClient();
+    
+    return useMutation({
+        mutationFn: ({ threadId, replyId }) => forumService.deleteReply({ threadId, replyId }),
+        onSuccess: (_, { threadId, replyId }) => {
+            // Remove reply from thread cache
+            queryClient.setQueryData(
+                forumKeys.thread(threadId),
+                (oldData) => {
+                    if (!oldData) return oldData;
+                    return {
+                        ...oldData,
+                        replies: (oldData.replies || []).filter(reply => reply.id !== replyId),
+                        replies: Math.max(0, (oldData.replies || 0) - 1),
+                    };
+                }
+            );
+            
+            // Invalidate threads list to update reply count
+            queryClient.invalidateQueries({ queryKey: forumKeys.threads() });
+        },
+        onError: (error) => {
+            console.error('Failed to delete reply:', error);
+        },
+    });
+};
+
+export const useVoteThread = () => {
+    const queryClient = useQueryClient();
+    
+    return useMutation({
+        mutationFn: ({ threadId, voteType }) => forumService.voteOnThread({ threadId, voteType }),
+        onSuccess: (result, { threadId }) => {
+            // Update thread vote count in cache
+            queryClient.setQueryData(
+                forumKeys.thread(threadId),
+                (oldData) => {
+                    if (!oldData) return oldData;
+                    return {
+                        ...oldData,
+                        votes: result.newVoteCount,
+                    };
+                }
+            );
+            
+            // Update vote count in threads list
+            queryClient.setQueryData(
+                forumKeys.threads(),
+                (oldData) => {
+                    if (!oldData?.data) return oldData;
+                    return {
+                        ...oldData,
+                        data: oldData.data.map(thread => 
+                            thread.id === parseInt(threadId) 
+                                ? { ...thread, votes: result.newVoteCount }
+                                : thread
+                        ),
+                    };
+                }
+            );
+        },
+        onError: (error) => {
+            console.error('Failed to vote on thread:', error);
+        },
+    });
+};
+
+export const useVoteReply = () => {
+    const queryClient = useQueryClient();
+    
+    return useMutation({
+        mutationFn: ({ threadId, replyId, voteType }) => 
+            forumService.voteOnReply({ threadId, replyId, voteType }),
+        onSuccess: (result, { threadId, replyId }) => {
+            // Update reply vote count in thread cache
+            queryClient.setQueryData(
+                forumKeys.thread(threadId),
+                (oldData) => {
+                    if (!oldData) return oldData;
+                    return {
+                        ...oldData,
+                        replies: (oldData.replies || []).map(reply => 
+                            reply.id === replyId 
+                                ? { ...reply, votes: (reply.votes || 0) + result.newVoteCount }
+                                : reply
+                        ),
+                    };
+                }
+            );
+        },
+        onError: (error) => {
+            console.error('Failed to vote on reply:', error);
+        },
+    });
+};
+
+export const useMarkThreadSolved = () => {
+    const queryClient = useQueryClient();
+    
+    return useMutation({
+        mutationFn: ({ threadId, solutionReplyId }) => 
+            forumService.markThreadAsSolved({ threadId, solutionReplyId }),
+        onSuccess: (result, { threadId }) => {
+            // Update thread solved status in cache
+            queryClient.setQueryData(
+                forumKeys.thread(threadId),
+                (oldData) => {
+                    if (!oldData) return oldData;
+                    return {
+                        ...oldData,
+                        isSolved: result.isSolved,
+                        solutionReplyId: result.solutionReplyId,
+                        updatedAt: result.updatedAt,
+                    };
+                }
+            );
+            
+            // Update in threads list
+            queryClient.setQueryData(
+                forumKeys.threads(),
+                (oldData) => {
+                    if (!oldData?.data) return oldData;
+                    return {
+                        ...oldData,
+                        data: oldData.data.map(thread => 
+                            thread.id === parseInt(threadId) 
+                                ? { ...thread, isSolved: result.isSolved }
+                                : thread
+                        ),
+                    };
+                }
+            );
+        },
+        onError: (error) => {
+            console.error('Failed to mark thread as solved:', error);
+        },
+    });
+};
+
+export const usePinThread = () => {
+    const queryClient = useQueryClient();
+    
+    return useMutation({
+        mutationFn: ({ threadId, isPinned }) => forumService.pinThread({ threadId, isPinned }),
+        onSuccess: (result, { threadId }) => {
+            // Update thread pinned status in cache
+            queryClient.setQueryData(
+                forumKeys.thread(threadId),
+                (oldData) => {
+                    if (!oldData) return oldData;
+                    return {
+                        ...oldData,
+                        isPinned: result.isPinned,
+                        updatedAt: result.updatedAt,
+                    };
+                }
+            );
+            
+            // Update in threads list
+            queryClient.setQueryData(
+                forumKeys.threads(),
+                (oldData) => {
+                    if (!oldData?.data) return oldData;
+                    return {
+                        ...oldData,
+                        data: oldData.data.map(thread => 
+                            thread.id === parseInt(threadId) 
+                                ? { ...thread, isPinned: result.isPinned }
+                                : thread
+                        ),
+                    };
+                }
+            );
+        },
+        onError: (error) => {
+            console.error('Failed to pin/unpin thread:', error);
+        },
+    });
+};
+
+export const useReportContent = () => {
+    return useMutation({
+        mutationFn: ({ contentType, contentId, reason }) => 
+            forumService.reportContent({ contentType, contentId, reason }),
+        onError: (error) => {
+            console.error('Failed to report content:', error);
+        },
+    });
+};
+
+// Utility function to prefetch thread data
+export const prefetchThread = (queryClient, threadId) => {
+    return queryClient.prefetchQuery({
+        queryKey: forumKeys.thread(threadId),
+        queryFn: () => forumService.getThreadById(threadId),
+        staleTime: 2 * 60 * 1000,
+    });
+};
+
+// Utility function to prefetch threads list
+export const prefetchThreads = (queryClient, params = {}) => {
+    return queryClient.prefetchQuery({
+        queryKey: forumKeys.threads(params),
+        queryFn: () => forumService.getThreads(params),
+        staleTime: 5 * 60 * 1000,
     });
 };

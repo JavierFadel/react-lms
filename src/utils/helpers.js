@@ -1,4 +1,5 @@
 import { THEME_COLORS, MODULE_STATUS, QUIZ_CONFIG } from './constants';
+import { Award } from 'lucide-react';
 
 export const formatDuration = (minutes) => {
     if (minutes < 60) {

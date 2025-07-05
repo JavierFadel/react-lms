@@ -451,6 +451,13 @@ import ThreadListItem from '../../components/forum/ThreadListItem';
 
 // The main Forum Page, assembled from our new components
 const ForumPage = () => {
+    // const [view, setView] = React.useState('list'); // 'list' or 'detail'
+    // const [threads, setThreads] = React.useState([]);
+    // const [categories, setCategories] = React.useState([]);
+    // const [selectedThreadId, setSelectedThreadId] = React.useState(null);
+    // const [isLoading, setIsLoading] = React.useState(true);
+    // const [filters, setFilters] = React.useState({ keyword: '', category: 'all', tag: '', sortBy: 'latest' });
+
     const { data: threads, isLoading, error } = useForumThreads();
 
     if (isLoading) {

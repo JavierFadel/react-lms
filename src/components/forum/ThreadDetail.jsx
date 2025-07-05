@@ -1,60 +1,68 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Clock } from 'lucide-react';
-import { formatRelativeTime } from '../../utils/dateUtils'; // Menggunakan helper lagi
+import { useCallback, useState, useEffect } from "react";
+import { forumService } from "../../services/forumService";
+import LoadingSpinner from "../common/LoadingSpinner";
+import UserInfo from "../common/UserInfo";
 
-/**
- * Komponen untuk menampilkan konten utama dari sebuah utas (thread).
- *
- * @param {object} props
- * @param {object} props.thread - Objek data dari utas yang akan ditampilkan.
- */
-const ThreadDetail = ({ thread }) => {
-    if (!thread) {
-        // Tampilkan placeholder jika data belum tersedia
-        return <div className="p-6 bg-white border-b animate-pulse"></div>;
-    }
+const ThreadDetail = ({ threadId, onBack }) => {
+    const [thread, setThread] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const { title, content, author, avatar, createdAt } = thread;
+    const fetchThread = useCallback(async () => {
+        setIsLoading(true);
+        const data = await forumService.getThreadById(threadId);
+        setThread(data);
+        setIsLoading(false);
+    }, [threadId]);
+
+    useEffect(() => { fetchThread(); }, [fetchThread]);
+
+    const handleAddReply = async (replyData) => {
+        await forumService.addReply(threadId, replyData);
+        fetchThread(); // Refetch to get updated replies
+    };
+
+    // Logic to nest replies
+    const nestedReplies = React.useMemo(() => {
+        if (!thread?.replies) return [];
+        const replyMap = {};
+        const topLevelReplies = [];
+        thread.replies.forEach(reply => {
+            replyMap[reply.id] = { ...reply, children: [] };
+        });
+        thread.replies.forEach(reply => {
+            if (reply.parentId && replyMap[reply.parentId]) {
+                replyMap[reply.parentId].children.push(replyMap[reply.id]);
+            } else {
+                topLevelReplies.push(replyMap[reply.id]);
+            }
+        });
+        return topLevelReplies;
+    }, [thread]);
+
+    if (isLoading || !thread) return <LoadingSpinner />;
 
     return (
-        <div className="p-6 bg-white rounded-t-lg border-x border-t">
-            {/* Judul Utas */}
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">{title}</h1>
-
-            {/* Informasi Penulis */}
-            <div className="flex items-center space-x-3 mb-6 pb-4 border-b">
-                <img
-                    src={avatar}
-                    alt={`Avatar for ${author}`}
-                    className="w-12 h-12 rounded-full"
-                />
-                <div>
-                    <p className="font-semibold text-gray-800">{author}</p>
-                    <div className="flex items-center text-sm text-gray-500">
-                        <Clock className="w-4 h-4 mr-1.5" />
-                        <span>Diposting {formatRelativeTime(new Date(createdAt))}</span>
+        <div>
+            <button onClick={onBack} className="flex items-center space-x-2 text-indigo-600 dark:text-indigo-400 font-semibold mb-6 hover:underline"><ArrowLeft className="h-5 w-5" /><span>Kembali ke Forum</span></button>
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl">
+                <div className="flex justify-between items-start">
+                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{thread.title}</h1>
+                    {/* Moderation Tools (UI Only) */}
+                    <div className="flex items-center space-x-2">
+                        <button title="Tandai Terpecahkan" className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"><CheckSquare className="h-5 w-5 text-green-500" /></button>
+                        <button title="Pin Thread" className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"><Pin className="h-5 w-5 text-indigo-500" /></button>
+                        <button title="Laporkan" className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"><AlertTriangle className="h-5 w-5 text-red-500" /></button>
                     </div>
                 </div>
+                <div className="mt-3"><UserInfo user={thread.author} /></div>
+                <div className="mt-4 flex flex-wrap gap-2">{thread.tags.map(tag => <span key={tag} className="bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300 text-xs font-medium px-2.5 py-0.5 rounded-full">{tag}</span>)}</div>
+                <p className="mt-6 text-gray-700 dark:text-gray-300 leading-relaxed">{thread.content}</p>
             </div>
-
-            {/* Konten Utas */}
-            <div
-                className="prose max-w-none text-gray-700"
-                dangerouslySetInnerHTML={{ __html: content }}
-            />
+            <div className="mt-8">
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">{thread.replies?.length || 0} Balasan</h2>
+                <div className="space-y-5">{nestedReplies.map(reply => <Reply key={reply.id} reply={reply} onReply={handleAddReply} />)}</div>
+                <ReplyForm onSubmit={handleAddReply} />
+            </div>
         </div>
     );
 };
-
-ThreadDetail.propTypes = {
-    thread: PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        content: PropTypes.string.isRequired,
-        author: PropTypes.string.isRequired,
-        avatar: PropTypes.string.isRequired,
-        createdAt: PropTypes.string.isRequired,
-    }),
-};
-
-export default ThreadDetail;
