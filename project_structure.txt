@@ -1,5 +1,6 @@
 .
 ├── README.md
+├── dummyStructure.txt
 ├── eslint.config.js
 ├── index.html
 ├── package-lock.json
@@ -23,31 +24,45 @@
 │   │   │   ├── PieChart.jsx
 │   │   │   └── RadarChart.jsx
 │   │   ├── common
+│   │   │   ├── Button.jsx
 │   │   │   ├── ErrorBoundary.jsx
+│   │   │   ├── Input.jsx
 │   │   │   ├── Layout.jsx
 │   │   │   ├── LoadingSpinner.jsx
 │   │   │   ├── Modal.jsx
 │   │   │   ├── Navbar.jsx
-│   │   │   └── Sidebar.jsx
+│   │   │   ├── Sidebar.jsx
+│   │   │   └── UserInfo.jsx
 │   │   ├── forum
+│   │   │   ├── ForumToolbar.jsx
+│   │   │   ├── Reply.jsx
 │   │   │   ├── ReplyForm.jsx
+│   │   │   ├── ReputationBadge.jsx
 │   │   │   ├── SearchFilter.jsx
+│   │   │   ├── StatCard.jsx
 │   │   │   ├── ThreadDetail.jsx
-│   │   │   └── ThreadList.jsx
+│   │   │   ├── ThreadList.jsx
+│   │   │   ├── ThreadListItem.jsx
+│   │   │   └── Voting.jsx
 │   │   └── quiz
 │   │       ├── QuestionCard.jsx
+│   │       ├── QuizCard.jsx
 │   │       ├── QuizCreator.jsx
+│   │       ├── QuizLobby.jsx
+│   │       ├── QuizResults.jsx
 │   │       ├── QuizTaker.jsx
 │   │       └── TimerComponent.jsx
 │   ├── contexts
-│   │   ├── AchievementContext.js
-│   │   ├── AuthContext.js
-│   │   ├── ThemeContext.js
-│   │   └── UserPreferencesContext.js
+│   │   ├── AchievementContext.jsx
+│   │   ├── AuthContext.jsx
+│   │   ├── ThemeContext.jsx
+│   │   └── UserPreferencesContext.jsx
 │   ├── hooks
 │   │   ├── useAnalytics.js
 │   │   ├── useAuth.js
+│   │   ├── useDebounce.js
 │   │   ├── useForum.js
+│   │   ├── useInstructors.js
 │   │   ├── useLocalStorage.js
 │   │   └── useQuiz.js
 │   ├── index.css
@@ -61,7 +76,7 @@
 │   │       ├── Pencapaian.jsx
 │   │       └── Quiz.jsx
 │   ├── reducers
-│   │   ├── announcementReducer.js
+│   │   ├── achievementReducer.js
 │   │   ├── forumReducer.js
 │   │   └── quizReducer.js
 │   ├── services
@@ -73,6 +88,7 @@
 │   ├── styles
 │   │   └── globlal.css
 │   └── utils
+│       ├── cn.js
 │       ├── constants.js
 │       ├── dateUtils.js
 │       ├── dummyData.js
@@ -80,4 +96,4 @@
 ├── tailwind.config.js
 └── vite.config.js
 
-18 directories, 63 files
+18 directories, 79 files

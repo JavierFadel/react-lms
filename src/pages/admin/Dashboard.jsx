@@ -19,6 +19,9 @@ import { useAnalytics } from "../../hooks/useAnalytics";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
 import CustomLineChart from "../../components/charts/LineChart";
 import CustomBarChart from "../../components/charts/BarChart";
+import CustomAreaChart from "../../components/charts/AreaChart";
+import CustomPieChart from "../../components/charts/PieChart";
+import CustomRadarChart from "../../components/charts/RadarChart";
 
 const Dashboard = () => {
     const { activeRoute, setActiveRoute, sidebarOpen, setSidebarOpen } = useLayout();
@@ -27,6 +30,9 @@ const Dashboard = () => {
 
     const lineChartData = analyticsDataForCharts.weeklyProgress;
     const barChartData = analyticsDataForCharts.quizPerformance;
+    const areaChartData = analyticsDataForCharts.cumulativeStudyHours;
+    const pieChartData = analyticsDataForCharts.moduleStatusDistribution;
+    const radarChartData = analyticsDataForCharts.skillsRadar;
 
     if (isLoading) {
         return (
@@ -113,27 +119,78 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            <div className="bg-white rounded-lg border border-gray-200 p-8">
+            {/* Charts Section */}
+            <div className="bg-white rounded-lg border border-gray-200 p-8 mb-8">
                 <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900">Aktivitas Belajar</h1>
+                    <h2 className="text-2xl font-bold text-gray-900">Aktivitas Belajar</h2>
                     <p className="text-gray-600 mt-2">
                         Track your learning milestones and celebrate your achievements
                     </p>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                    <CustomLineChart 
-                        data={lineChartData}
-                        xAxisKey="week"
-                        lines={[
-                            { key: 'hours', color: ANALYTICS_CONFIG.CHART_COLORS[0] },  // Biru untuk jam belajar
-                            { key: 'modules', color: ANALYTICS_CONFIG.CHART_COLORS[1] } // Hijau untuk modul selesai
+                
+                {/* First Row - Line Chart and Bar Chart */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <div className="bg-gray-50 rounded-lg p-4">
+                        <h3 className="text-lg font-semibold text-gray-800 mb-4">Progress Mingguan</h3>
+                        <CustomLineChart 
+                            data={lineChartData}
+                            xAxisKey="week"
+                            lines={[
+                                { key: 'hours', color: ANALYTICS_CONFIG.CHART_COLORS[0] },
+                                { key: 'modules', color: ANALYTICS_CONFIG.CHART_COLORS[1] }
+                            ]}
+                        />
+                    </div>
+                    
+                    <div className="bg-gray-50 rounded-lg p-4">
+                        <h3 className="text-lg font-semibold text-gray-800 mb-4">Performa Quiz</h3>
+                        <CustomBarChart 
+                            data={barChartData}
+                            xAxisKey="name"
+                            bars={[{ key: 'score', color: ANALYTICS_CONFIG.CHART_COLORS[2] }]}
+                        />
+                    </div>
+                </div>
+
+                {/* Second Row - Area Chart and Pie Chart */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <div className="bg-gray-50 rounded-lg p-4">
+                        <h3 className="text-lg font-semibold text-gray-800 mb-4">Jam Belajar Kumulatif</h3>
+                        <CustomAreaChart 
+                            data={areaChartData}
+                            xAxisKey="date"
+                            areas={[{ key: 'hours', color: ANALYTICS_CONFIG.CHART_COLORS[3] }]}
+                        />
+                    </div>
+                    
+                    <div className="bg-gray-50 rounded-lg p-4">
+                        <h3 className="text-lg font-semibold text-gray-800 mb-4">Status Modul</h3>
+                        <CustomPieChart 
+                            data={pieChartData.map(item => ({
+                                name: item.status,
+                                value: item.count
+                            }))}
+                        />
+                    </div>
+                </div>
+
+                {/* Third Row - Radar Chart (Full Width) */}
+                <div className="bg-gray-50 rounded-lg p-4">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Skills Assessment</h3>
+                    <CustomRadarChart 
+                        data={radarChartData.map(item => ({
+                            subject: item.skill,
+                            level: item.level,
+                            fullMark: 100
+                        }))}
+                        radars={[
+                            {
+                                name: 'Skill Level',
+                                dataKey: 'level',
+                                stroke: ANALYTICS_CONFIG.CHART_COLORS[4],
+                                fill: ANALYTICS_CONFIG.CHART_COLORS[4]
+                            }
                         ]}
-                        className="mb-8"
-                    />
-                    <CustomBarChart 
-                        data={barChartData}
-                        xAxisKey="name"
-                        bars={[{ key: 'score', color: ANALYTICS_CONFIG.CHART_COLORS[0] }]} // Ungu untuk skor
                     />
                 </div>
             </div>
