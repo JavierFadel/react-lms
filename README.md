@@ -1,4 +1,4 @@
-# 🎓 Belajar Pintar - Smart Learning Platform
+# Belajar Pintar - Smart Learning Platform
 
 <div align="center">
 
@@ -13,45 +13,45 @@
 
 </div>
 
-## 📖 About Belajar Pintar
+## About Belajar Pintar
 
 **Belajar Pintar** is a modern, feature-rich Learning Management System (LMS) designed to provide an engaging and interactive educational experience. Built with cutting-edge React technologies, this platform serves as an administrative dashboard for managing educational content, tracking student progress, and facilitating collaborative learning through forums and gamified achievements.
 
 The platform emphasizes modular architecture, scalability, and maintainability, making it an ideal solution for educational institutions, online course providers, and corporate training programs.
 
-## ✨ Features
+## Features
 
-### 📊 **Analytics Dashboard**
+### **Analytics Dashboard**
 - **Real-time Learning Analytics**: Comprehensive data visualization using Recharts
 - **Progress Tracking**: Weekly learning progress, cumulative study hours
 - **Performance Metrics**: Quiz performance analytics, module completion rates
 - **Skill Assessment**: Radar charts for skill distribution analysis
 
-### 🧠 **Quiz Management System**
+### **Quiz Management System**
 - **Interactive Quiz Creation**: Multiple question types (multiple choice, true/false, essay)
 - **Real-time Timer**: Automatic quiz submission with time tracking
 - **Progress Persistence**: Auto-save functionality with localStorage
 - **Detailed Results**: Performance analysis with explanations and scoring
 
-### 💬 **Forum & Community**
+### **Forum & Community**
 - **Threaded Discussions**: Nested reply system with voting
 - **Category Management**: Organized discussion topics
 - **Moderation Tools**: Thread management and content filtering
 - **User Reputation**: Reputation scoring system with badges
 
-### 🏆 **Achievement System**
+### **Achievement System**
 - **Gamified Learning**: Badge system with multiple achievement categories
 - **Progress Visualization**: Interactive progress bars and learning paths
 - **Milestone Tracking**: Automatic achievement unlocking based on activities
 - **Custom Achievements**: Configurable achievement criteria
 
-### 🎨 **Modern UI/UX**
+### **Modern UI/UX**
 - **Responsive Design**: Mobile-first approach with Tailwind CSS
 - **Dark/Light Theme**: Theme switching capabilities
 - **Component Library**: Reusable UI components with consistent design
 - **Error Boundaries**: Graceful error handling and user feedback
 
-## 🛠 Tech Stack
+## Tech Stack
 
 ### **Frontend Core**
 - **[React 19.1.0](https://reactjs.org/)** - Modern React with latest features
@@ -80,7 +80,7 @@ The platform emphasizes modular architecture, scalability, and maintainability, 
 - **Hot Module Replacement** - Fast development feedback
 - **PropTypes** - Runtime type checking
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - **Node.js** (v18.0.0 or higher)
@@ -116,7 +116,7 @@ npm run build        # Build for production
 npm run lint         # Run ESLint for code analysis
 ```
 
-## 🏗 Architecture
+## Architecture
 
 ### Design Philosophy
 
@@ -253,7 +253,7 @@ src/
 └── main.jsx                   # Application entry point
 ```
 
-## 🔧 Key Components
+## Key Components
 
 ### Dashboard Analytics
 - **Multi-chart visualization** with Recharts integration
@@ -279,7 +279,7 @@ src/
 - **Learning path visualization** with milestone markers
 - **Customizable achievement criteria**
 
-## 🧪 Development Patterns
+## Development Patterns
 
 ### Custom Hooks Pattern
 ```jsx
@@ -335,7 +335,7 @@ function QuizTaker({ quiz, answers, onSubmit }) {
 }
 ```
 
-## 🎯 Features in Detail
+## Features in Detail
 
 ### Analytics Dashboard
 - **Weekly Progress Tracking**: Line charts showing study hours and module completion
@@ -364,7 +364,7 @@ function QuizTaker({ quiz, answers, onSubmit }) {
 - **Learning Paths**: Structured learning progression with dependencies
 - **Automatic Unlocking**: Dynamic achievement detection based on user activities
 
-## 🔄 State Management
+## State Management
 
 ### Global State (React Context)
 - **AuthContext**: User authentication and authorization
@@ -383,7 +383,7 @@ function QuizTaker({ quiz, answers, onSubmit }) {
 - **Error handling** and retry mechanisms
 - **Optimistic updates** for better user experience
 
-## 🚦 Performance Optimizations
+## Performance Optimizations
 
 ### Code Splitting
 - **Lazy loading** of page components
@@ -441,7 +441,7 @@ export const quizService = {
 | **Analytics** | `analyticsService.js` | ✅ Ready | Progress tracking, performance metrics |
 | **User Management** | `userService.js` | ✅ Ready | Profiles, preferences, achievements |
 
-### **API Simulation Features** ⏱️
+### **API Simulation Features** ⏱
 Currently implements realistic API behavior:
 - **Simulated delays** (300-500ms) for authentic UX
 - **Error handling** with proper error codes and messages
@@ -449,7 +449,7 @@ Currently implements realistic API behavior:
 - **Sorting and filtering** capabilities
 - **JWT token simulation** for authentication flow
 
-### **Backend Integration Readiness** 🚀
+### **Backend Integration Readiness** 
 
 #### Environment Configuration
 ```bash
@@ -498,7 +498,7 @@ GET  /analytics/learning-progress/{userId}
 GET  /analytics/quiz-performance/{userId}
 ```
 
-### **Migration Strategy** 🔧
+### **Migration Strategy** 
 
 #### Phase 1: Infrastructure Setup
 1. **Backend API Development** - Implement endpoints matching service layer
@@ -522,7 +522,7 @@ return response.json();
 - **File upload** support for quiz images and user avatars
 - **Advanced caching** with Redis for performance optimization
 
-### **Data Models** 📋
+### **Data Models** 
 All data structures are well-defined and ready for database implementation:
 
 ```javascript
@@ -543,7 +543,7 @@ All data structures are well-defined and ready for database implementation:
 }
 ```
 
-### **Integration Checklist** ✅
+### **Integration Checklist** 
 
 - [x] **Service Layer** - Complete API abstraction implemented
 - [x] **Error Handling** - Comprehensive error management system
@@ -556,7 +556,7 @@ All data structures are well-defined and ready for database implementation:
 
 **Status**: The frontend is **100% ready** for backend integration with minimal code changes required.
 
-## �🔒 Security Considerations
+## Security Considerations
 
 ### Data Protection
 - **Input validation** and sanitization
@@ -568,7 +568,7 @@ All data structures are well-defined and ready for database implementation:
 - **Protected routes** with authentication guards
 - **Session timeout** handling
 
-## 🧪 Testing Strategy
+## Testing Strategy
 
 ### Unit Testing
 - **Component testing** with React Testing Library
@@ -580,7 +580,7 @@ All data structures are well-defined and ready for database implementation:
 - **API integration testing** with mock servers
 - **Error boundary testing** for graceful failure handling
 
-## 🚀 Deployment
+## Deployment
 
 ### Build Process
 ```bash
@@ -596,7 +596,7 @@ npm run preview  # Test production build locally
 - **Production**: Optimized build with code splitting and minification
 - **Staging**: Production-like environment for testing
 
-## 📈 Future Enhancements
+## Future Enhancements
 
 ### Planned Features
 - **Real-time notifications** with WebSocket integration
@@ -612,7 +612,7 @@ npm run preview  # Test production build locally
 - **Advanced caching** with Redis integration
 - **Microservices architecture** for scalability
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions to Belajar Pintar! Please follow these guidelines:
 
@@ -636,11 +636,7 @@ We welcome contributions to Belajar Pintar! Please follow these guidelines:
 - Test **cross-browser compatibility**
 - Validate **accessibility standards**
 
-## 📄 License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## 👨‍💻 Author
+## Author
 
 **Javier Fadel**
 - GitHub: [@JavierFadel](https://github.com/JavierFadel)
